@@ -8,7 +8,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import pl.michalzadrozny.familyrecipes.exception.EmailAlreadyExistsException;
 import pl.michalzadrozny.familyrecipes.exception.UsernameAlreadyExistsException;
-import pl.michalzadrozny.familyrecipes.model.AppUser;
+import pl.michalzadrozny.familyrecipes.model.entity.AppUser;
 import pl.michalzadrozny.familyrecipes.repository.UserRepo;
 
 import java.util.Optional;

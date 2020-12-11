@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.michalzadrozny.familyrecipes.exception.EmailAlreadyExistsException;
 import pl.michalzadrozny.familyrecipes.exception.UsernameAlreadyExistsException;
-import pl.michalzadrozny.familyrecipes.model.AppUser;
+import pl.michalzadrozny.familyrecipes.model.entity.AppUser;
 import pl.michalzadrozny.familyrecipes.model.Mapper;
 import pl.michalzadrozny.familyrecipes.model.dto.LoginDTO;
 import pl.michalzadrozny.familyrecipes.model.dto.SignUpDTO;
@@ -47,13 +47,15 @@ public class UserController {
     }
 
     @GetMapping("/verify-token")
-    public ResponseEntity<Void> verifyToken(@RequestParam String token) {
+    public ResponseEntity<?> verifyToken(@RequestParam String token) {
         try {
             registrationService.verifyToken(token);
+            return ResponseEntity.status(HttpStatus.OK).build();
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
+        }catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @ApiOperation(value = "login", notes = "Logging in requires prior verification of the e-mail address")

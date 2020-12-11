@@ -2,7 +2,7 @@ package pl.michalzadrozny.familyrecipes.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import pl.michalzadrozny.familyrecipes.model.AppUser;
+import pl.michalzadrozny.familyrecipes.model.entity.AppUser;
 
 import java.util.Optional;
 

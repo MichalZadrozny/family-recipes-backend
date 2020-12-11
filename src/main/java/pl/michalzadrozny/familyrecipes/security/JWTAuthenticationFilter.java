@@ -8,7 +8,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import pl.michalzadrozny.familyrecipes.model.AppUser;
+import pl.michalzadrozny.familyrecipes.model.entity.AppUser;
 import pl.michalzadrozny.familyrecipes.model.Mapper;
 import pl.michalzadrozny.familyrecipes.model.dto.LoginDTO;
 

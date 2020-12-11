@@ -3,6 +3,7 @@ package pl.michalzadrozny.familyrecipes.model;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import pl.michalzadrozny.familyrecipes.model.dto.SignUpDTO;
+import pl.michalzadrozny.familyrecipes.model.entity.AppUser;
 
 
 public class Mapper {

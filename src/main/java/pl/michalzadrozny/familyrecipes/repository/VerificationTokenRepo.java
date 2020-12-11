@@ -2,7 +2,7 @@ package pl.michalzadrozny.familyrecipes.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import pl.michalzadrozny.familyrecipes.model.VerificationToken;
+import pl.michalzadrozny.familyrecipes.model.entity.VerificationToken;
 
 import java.util.Optional;
 

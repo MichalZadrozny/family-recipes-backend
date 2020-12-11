@@ -1,4 +1,4 @@
-package pl.michalzadrozny.familyrecipes.model;
+package pl.michalzadrozny.familyrecipes.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;

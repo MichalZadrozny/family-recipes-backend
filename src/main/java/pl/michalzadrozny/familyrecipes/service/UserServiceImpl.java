@@ -5,7 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.michalzadrozny.familyrecipes.exception.EmailAlreadyExistsException;
 import pl.michalzadrozny.familyrecipes.exception.UsernameAlreadyExistsException;
-import pl.michalzadrozny.familyrecipes.model.AppUser;
+import pl.michalzadrozny.familyrecipes.model.entity.AppUser;
 import pl.michalzadrozny.familyrecipes.repository.UserRepo;
 
 
@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
     public void addNewUser(AppUser user) throws UsernameAlreadyExistsException, EmailAlreadyExistsException {
 
         userRepo.findByUsername(user.getUsername()).ifPresent(s -> {
-            throw new UsernameAlreadyExistsException("User with specified username already exists");
+            throw new UsernameAlreadyExistsException();
         });
         userRepo.findByEmail(user.getEmail()).ifPresent(s -> {
             throw new EmailAlreadyExistsException("User with specified email already exists");

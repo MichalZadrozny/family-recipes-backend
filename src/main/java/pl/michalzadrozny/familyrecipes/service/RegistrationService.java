@@ -4,8 +4,8 @@ import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import pl.michalzadrozny.familyrecipes.model.AppUser;
-import pl.michalzadrozny.familyrecipes.model.VerificationToken;
+import pl.michalzadrozny.familyrecipes.model.entity.AppUser;
+import pl.michalzadrozny.familyrecipes.model.entity.VerificationToken;
 import pl.michalzadrozny.familyrecipes.repository.UserRepo;
 import pl.michalzadrozny.familyrecipes.repository.VerificationTokenRepo;
 
@@ -36,7 +36,7 @@ public class RegistrationService {
         Optional<VerificationToken> verificationToken = verificationTokenRepo.findByValue(token);
 
         if (verificationToken.isEmpty()) {
-            throw new NotFoundException("Couldn't found verification token with value: " + token);
+            throw new NotFoundException("Nie udało się znaleźć tokena weryfikacyjnego o wartości: " + token);
         }
 
         AppUser user = verificationToken.get().getAppUser();

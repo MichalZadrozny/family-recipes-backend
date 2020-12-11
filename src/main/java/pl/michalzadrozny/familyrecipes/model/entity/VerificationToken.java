@@ -1,4 +1,4 @@
-package pl.michalzadrozny.familyrecipes.model;
+package pl.michalzadrozny.familyrecipes.model.entity;
 
 import lombok.AccessLevel;
 import lombok.Data;
