@@ -24,10 +24,7 @@ import pl.michalzadrozny.familyrecipes.security.WebSecurityConfig;
 import pl.michalzadrozny.familyrecipes.service.RegistrationService;
 import pl.michalzadrozny.familyrecipes.service.UserService;
 
-import java.util.Optional;
-
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doThrow;
 
 @AutoConfigureJsonTesters
@@ -406,7 +403,7 @@ class UserControllerTest {
 //        when
         MockHttpServletResponse response = mockMvc.
                 perform(MockMvcRequestBuilders.get("/api/user/verify-token")
-                        .param("token","123"))
+                        .param("token", "123"))
                 .andReturn().getResponse();
 
 //        then
@@ -423,7 +420,7 @@ class UserControllerTest {
 //        when
         MockHttpServletResponse response = mockMvc.
                 perform(MockMvcRequestBuilders.get("/api/user/verify-token")
-                        .param("token",token))
+                        .param("token", token))
                 .andReturn().getResponse();
 
 //        then
@@ -440,7 +437,7 @@ class UserControllerTest {
 //        when
         MockHttpServletResponse response = mockMvc.
                 perform(MockMvcRequestBuilders.get("/api/user/verify-token")
-                        .param("token",token))
+                        .param("token", token))
                 .andReturn().getResponse();
 
 //        then
