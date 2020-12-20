@@ -36,3 +36,4 @@ build/
 /mvnw
 /mvnw.cmd
 /.mvn/
+/src/main/java/pl/michalzadrozny/familyrecipes/Init.java

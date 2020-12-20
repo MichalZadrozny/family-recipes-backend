@@ -87,17 +87,17 @@ class RatingTest {
         //        when
         //        then
         rating.addRating(user1,1);
-        assertThat(rating.averageRating).isEqualTo(1);
+        assertThat(rating.getAverageRating()).isEqualTo(1);
         rating.addRating(user2,2);
-        assertThat(rating.averageRating).isEqualTo(1.5);
+        assertThat(rating.getAverageRating()).isEqualTo(1.5);
         rating.addRating(user3,3);
-        assertThat(rating.averageRating).isEqualTo(2);
+        assertThat(rating.getAverageRating()).isEqualTo(2);
         rating.addRating(user4,4);
-        assertThat(rating.averageRating).isEqualTo(2.5);
+        assertThat(rating.getAverageRating()).isEqualTo(2.5);
         rating.addRating(user5,5);
-        assertThat(rating.averageRating).isEqualTo(3);
+        assertThat(rating.getAverageRating()).isEqualTo(3);
         rating.addRating(user6,1);
-        assertThat(Math.round(rating.averageRating*10)/10.0).isEqualTo(2.7);
+        assertThat(Math.round(rating.getAverageRating()*10)/10.0).isEqualTo(2.7);
     }
 
     @Test

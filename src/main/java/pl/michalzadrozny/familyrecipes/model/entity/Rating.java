@@ -1,15 +1,28 @@
 package pl.michalzadrozny.familyrecipes.model.entity;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 import pl.michalzadrozny.familyrecipes.exception.IncorrectRatingException;
 
+import javax.persistence.*;
 import java.util.HashMap;
+import java.util.Map;
 
 @Data
+@Entity
+@AllArgsConstructor
+@Table(name = "ratings")
 public class Rating {
 
-    double averageRating;
-    HashMap<Long, Integer> ratingsMap;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)
+    @JsonIgnore
+    private Long id;
+    private double averageRating;
+
+    @ElementCollection
+    Map<Long, Integer> ratingsMap;
 
     public Rating() {
         this.averageRating = 0;
