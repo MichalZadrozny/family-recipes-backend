@@ -1,6 +1,7 @@
 package pl.michalzadrozny.familyrecipes.model.entity;
 
-public enum Vege {
+public enum Diet {
     VEGETARIAN,
-    VEGAN
+    VEGAN,
+    MEAT
 }

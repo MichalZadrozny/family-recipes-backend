@@ -34,5 +34,5 @@ public class Recipe {
 
     @OneToOne
     private Nutrients nutrients;
-    private Vege vege;
+    private Diet diet;
 }

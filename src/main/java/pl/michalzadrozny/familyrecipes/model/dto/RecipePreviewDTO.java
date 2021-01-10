@@ -2,12 +2,12 @@ package pl.michalzadrozny.familyrecipes.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import pl.michalzadrozny.familyrecipes.model.entity.Vege;
+import pl.michalzadrozny.familyrecipes.model.entity.Diet;
 
 @Data
 @AllArgsConstructor
 public class RecipePreviewDTO {
     private String name;
-    private Vege vege;
+    private Diet diet;
     private int preparationTime;
 }
