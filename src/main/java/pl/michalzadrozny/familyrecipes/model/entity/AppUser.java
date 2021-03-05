@@ -1,11 +1,13 @@
 package pl.michalzadrozny.familyrecipes.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import pl.michalzadrozny.familyrecipes.model.CustomAuthorityDeserializer;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -36,6 +38,7 @@ public class AppUser implements UserDetails {
 
     @Override
     @ApiModelProperty(hidden = true)
+    @JsonDeserialize(using = CustomAuthorityDeserializer.class)
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
     }
