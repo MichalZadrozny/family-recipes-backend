@@ -8,9 +8,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import pl.michalzadrozny.familyrecipes.model.entity.AppUser;
-import pl.michalzadrozny.familyrecipes.model.Mapper;
+import pl.michalzadrozny.familyrecipes.model.mapper.UserMapper;
 import pl.michalzadrozny.familyrecipes.model.dto.LoginDTO;
+import pl.michalzadrozny.familyrecipes.model.entity.AppUser;
 
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
@@ -39,7 +39,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         try {
             LoginDTO loginDTO = new ObjectMapper()
                     .readValue(request.getInputStream(), LoginDTO.class);
-            AppUser credentials = Mapper.signUpToAppUserMapper().map(loginDTO, AppUser.class);
+            AppUser credentials = UserMapper.signUpDtoToAppUserMapper().map(loginDTO, AppUser.class);
 
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
