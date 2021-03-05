@@ -10,10 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.michalzadrozny.familyrecipes.exception.EmailAlreadyExistsException;
 import pl.michalzadrozny.familyrecipes.exception.UsernameAlreadyExistsException;
-import pl.michalzadrozny.familyrecipes.model.entity.AppUser;
-import pl.michalzadrozny.familyrecipes.model.Mapper;
+import pl.michalzadrozny.familyrecipes.model.mapper.UserMapper;
 import pl.michalzadrozny.familyrecipes.model.dto.LoginDTO;
 import pl.michalzadrozny.familyrecipes.model.dto.SignUpDTO;
+import pl.michalzadrozny.familyrecipes.model.entity.AppUser;
 import pl.michalzadrozny.familyrecipes.service.RegistrationService;
 import pl.michalzadrozny.familyrecipes.service.UserService;
 
@@ -37,7 +37,7 @@ public class UserController {
     @ApiResponses({@ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 409, message = "Conflict")})
     public ResponseEntity<?> signUp(@Valid @RequestBody SignUpDTO user) {
         try {
-            userService.addNewUser(Mapper.signUpToAppUserMapper().map(user, AppUser.class));
+            userService.addNewUser(UserMapper.signUpDtoToAppUserMapper().map(user, AppUser.class));
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (UsernameAlreadyExistsException | EmailAlreadyExistsException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
@@ -53,7 +53,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.OK).build();
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
-        }catch (Exception e) {
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
