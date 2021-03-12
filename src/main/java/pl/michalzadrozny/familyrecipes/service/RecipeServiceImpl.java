@@ -28,7 +28,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public void addRecipe(RecipeDTO recipeDTO) throws RecipeAlreadyExistException, UserDoesNotExistException {
-        Optional<Recipe> recipe = recipeRepo.findRecipeByAuthor_UsernameAndName(recipeDTO.getUsername(), recipeDTO.getName());
+        Optional<Recipe> recipe = recipeRepo.findByAuthorUsernameAndName(recipeDTO.getUsername(), recipeDTO.getName());
 
         recipe.ifPresent(x -> {
             throw new RecipeAlreadyExistException("Nazwa \"" + recipeDTO.getName() + "\" już została przez Ciebie wybrana do nazwania innego przepisu");
@@ -43,7 +43,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public void editRecipe(RecipeDTO recipeDTO) throws RecipeNotFoundException {
-        Optional<Recipe> recipe = recipeRepo.findRecipeByAuthor_UsernameAndName(recipeDTO.getUsername(), recipeDTO.getName());
+        Optional<Recipe> recipe = recipeRepo.findByAuthorUsernameAndName(recipeDTO.getUsername(), recipeDTO.getName());
 
         recipe.ifPresent(x -> {
             throw new RecipeNotFoundException("Nazwa \"" + recipeDTO.getName() + "\" już została przez Ciebie wybrana do nazwania innego przepisu");

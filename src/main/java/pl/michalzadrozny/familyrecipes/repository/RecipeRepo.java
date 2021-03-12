@@ -8,10 +8,15 @@ import pl.michalzadrozny.familyrecipes.model.dto.RecipePreviewDTO;
 import pl.michalzadrozny.familyrecipes.model.entity.Recipe;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
-public interface RecipeRepo extends JpaRepository<Recipe,Long> {
+public interface RecipeRepo extends JpaRepository<Recipe, Long> {
 
-    @Query("SELECT new pl.michalzadrozny.familyrecipes.model.dto.RecipePreviewDTO(r.name, r.vege, r.preparationTime) FROM Recipe r")
+    @Query("SELECT new pl.michalzadrozny.familyrecipes.model.dto.RecipePreviewDTO(recipe.name, recipe.diet, recipe.preparationTime) FROM Recipe recipe")
     List<RecipePreviewDTO> findAllRecipePreviews(Pageable pageable);
+
+    <T> Optional<T> findById(Long id, Class<T> type);
+
+    Optional<Recipe> findByAuthorUsernameAndName(String username, String name);
 }

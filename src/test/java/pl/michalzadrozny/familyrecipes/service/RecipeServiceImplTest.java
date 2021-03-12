@@ -75,7 +75,7 @@ class RecipeServiceImplTest {
     void should_throwRecipeAlreadyExistException_when_recipeHasBeenFound() {
 //        given
         Recipe recipe = getValidRecipe();
-        given(recipeRepo.findRecipeByAuthor_UsernameAndName(recipe.getAuthor().getUsername(), recipe.getName())).willReturn(Optional.of(recipe));
+        given(recipeRepo.findByAuthorUsernameAndName(recipe.getAuthor().getUsername(), recipe.getName())).willReturn(Optional.of(recipe));
         RecipeDTO recipeDTO = RecipeMapper.recipeToRecipeDTOMapper().map(recipe, RecipeDTO.class);
 
 //        when
@@ -99,7 +99,7 @@ class RecipeServiceImplTest {
     void should_saveRecipe_when_addingRecipe() {
 //        given
         Recipe recipe = getValidRecipe();
-        given(recipeRepo.findRecipeByAuthor_UsernameAndName(recipe.getAuthor().getUsername(), recipe.getName())).willReturn(Optional.empty());
+        given(recipeRepo.findByAuthorUsernameAndName(recipe.getAuthor().getUsername(), recipe.getName())).willReturn(Optional.empty());
         given(userRepo.findByUsername(recipe.getAuthor().getUsername())).willReturn(Optional.of(recipe.getAuthor()));
         RecipeDTO recipeDTO = RecipeMapper.recipeToRecipeDTOMapper().map(recipe, RecipeDTO.class);
 
@@ -115,7 +115,7 @@ class RecipeServiceImplTest {
     void should_throwRecipeNotFoundException_when_recipeHasBeenFound() {
 //        given
         Recipe recipe = getValidRecipe();
-        given(recipeRepo.findRecipeByAuthor_UsernameAndName(recipe.getAuthor().getUsername(), recipe.getName())).willReturn(Optional.of(recipe));
+        given(recipeRepo.findByAuthorUsernameAndName(recipe.getAuthor().getUsername(), recipe.getName())).willReturn(Optional.of(recipe));
         RecipeDTO recipeDTO = RecipeMapper.recipeToRecipeDTOMapper().map(recipe, RecipeDTO.class);
 
 //        when
@@ -139,7 +139,7 @@ class RecipeServiceImplTest {
     void should_saveRecipe_when_editingRecipe() {
 //        given
         Recipe recipe = getValidRecipe();
-        given(recipeRepo.findRecipeByAuthor_UsernameAndName(recipe.getAuthor().getUsername(), recipe.getName())).willReturn(Optional.empty());
+        given(recipeRepo.findByAuthorUsernameAndName(recipe.getAuthor().getUsername(), recipe.getName())).willReturn(Optional.empty());
         given(userRepo.findByUsername(recipe.getAuthor().getUsername())).willReturn(Optional.of(recipe.getAuthor()));
         RecipeDTO recipeDTO = RecipeMapper.recipeToRecipeDTOMapper().map(recipe, RecipeDTO.class);
 
