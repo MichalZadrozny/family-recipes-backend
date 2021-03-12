@@ -1,23 +1,22 @@
 package pl.michalzadrozny.familyrecipes.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
-@Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 @Table(name = "recipes")
 public class Recipe {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Setter(AccessLevel.NONE)
-    @JsonIgnore
     private Long id;
     private String name;
 
@@ -29,10 +28,11 @@ public class Recipe {
     private Rating rating;
     private String description;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<String> ingredients;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "recipe_id")
+    private List<Ingredient> ingredients = new ArrayList<>();
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Nutrients nutrients;
     private Diet diet;
 }

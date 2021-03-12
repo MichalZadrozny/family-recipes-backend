@@ -21,7 +21,7 @@ public class Rating {
     private Long id;
     private double averageRating;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     Map<Long, Integer> ratingsMap;
 
     public Rating() {
