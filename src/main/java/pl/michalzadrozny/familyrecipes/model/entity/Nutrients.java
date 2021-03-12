@@ -1,6 +1,5 @@
 package pl.michalzadrozny.familyrecipes.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -15,7 +14,6 @@ public class Nutrients {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
-    @JsonIgnore
     private Long id;
 
     private double calories;
