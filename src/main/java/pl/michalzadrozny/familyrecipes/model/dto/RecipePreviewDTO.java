@@ -10,4 +10,5 @@ public class RecipePreviewDTO {
     private String name;
     private Diet diet;
     private int preparationTime;
+    private double averageRating;
 }
