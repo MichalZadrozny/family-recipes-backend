@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @AllArgsConstructor
@@ -35,4 +36,7 @@ public class Recipe {
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Nutrients nutrients;
     private Diet diet;
+
+    @ElementCollection
+    Map<Long, String> steps;
 }

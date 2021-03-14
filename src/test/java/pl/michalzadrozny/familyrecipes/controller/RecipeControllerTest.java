@@ -9,7 +9,6 @@ import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -72,9 +71,16 @@ class RecipeControllerTest {
     private static RecipeDTO getValidRecipeDTO() {
         Rating rating = new Rating();
         Nutrients nutrients = new Nutrients(1L, 2, 3, 4, 5);
+
+        Map<Long, String> steps = new HashMap<>();
+        steps.put(1L, "Wlej mleko do miski");
+        steps.put(2L, "Wbij jajko do miski");
+        steps.put(3L, "Wymieszaj");
+        steps.put(4L, "Upiecz");
+
         AppUser user = getSampleUser();
 
-        RecipeDTO recipeDTO = new RecipeDTO(1L, "Test name", user.getUsername(), 15, rating, "Test description", null, nutrients, Diet.VEGETARIAN);
+        RecipeDTO recipeDTO = new RecipeDTO(1L, "Test name", user.getUsername(), 15, rating, "Test description", null, nutrients, Diet.VEGETARIAN, steps);
 
         Recipe recipe = RecipeMapper.recipeDtoToRecipeMapper(user).map(recipeDTO, Recipe.class);
         Ingredient ingredient1 = new Ingredient(1L, 100, "ml", "mleka");
@@ -90,7 +96,13 @@ class RecipeControllerTest {
         Nutrients nutrients = new Nutrients(1L, 2, 3, 4, 5);
         AppUser user = getSampleUser();
 
-        Recipe recipe = new Recipe(1L, "Test name", user, 15, rating, "Test description", null, nutrients, Diet.VEGETARIAN);
+        Map<Long, String> steps = new HashMap<>();
+        steps.put(1L, "Wlej mleko do miski");
+        steps.put(2L, "Wbij jajko do miski");
+        steps.put(3L, "Wymieszaj");
+        steps.put(4L, "Upiecz");
+
+        Recipe recipe = new Recipe(1L, "Test name", user, 15, rating, "Test description", null, nutrients, Diet.VEGETARIAN, steps);
 
         Ingredient ingredient1 = new Ingredient(1L, 100, "ml", "mleka");
         Ingredient ingredient2 = new Ingredient(2L, 2, null, "jajka");
@@ -100,7 +112,7 @@ class RecipeControllerTest {
         return recipe;
     }
 
-    private static RecipePreviewDTO getValidRecipePreviewDTO(){
+    private static RecipePreviewDTO getValidRecipePreviewDTO() {
         return new RecipePreviewDTO("Test name", Diet.MEAT, 15, 4.5);
     }
 
@@ -194,6 +206,17 @@ class RecipeControllerTest {
                 ingredients.add(ingredient2);
 
                 return ingredients;
+            }
+
+            @Override
+            public Map<Long, String> getSteps() {
+                Map<Long, String> steps = new HashMap<>();
+                steps.put(1L, "Wlej mleko do miski");
+                steps.put(2L, "Wbij jajko do miski");
+                steps.put(3L, "Wymieszaj");
+                steps.put(4L, "Upiecz");
+
+                return steps;
             }
         };
     }
@@ -387,11 +410,11 @@ class RecipeControllerTest {
     @Test
     void should_returnEmptyRecipePreviewsList_when_repositoryReturnsNothing() throws Exception {
         //        given
-        given(recipeRepo.findAllRecipePreviews(PageRequest.of(0,10))).willReturn(Collections.emptyList());
+        given(recipeRepo.findAllRecipePreviews(PageRequest.of(0, 10))).willReturn(Collections.emptyList());
 
         //        when
         MockHttpServletResponse response = mockMvc
-                .perform(MockMvcRequestBuilders.get("/api/recipes"+"?page=1&size=10")
+                .perform(MockMvcRequestBuilders.get("/api/recipes" + "?page=1&size=10")
                         .with(SecurityMockMvcRequestPostProcessors.user(getSampleUser())))
                 .andReturn().getResponse();
 
@@ -402,11 +425,11 @@ class RecipeControllerTest {
     @Test
     void should_listOfRecipePreviews_when_repositoryReturnsFilledList() throws Exception {
         //        given
-        given(recipeRepo.findAllRecipePreviews(PageRequest.of(1,10))).willReturn(List.of(getValidRecipePreviewDTO()));
+        given(recipeRepo.findAllRecipePreviews(PageRequest.of(1, 10))).willReturn(List.of(getValidRecipePreviewDTO()));
 
         //        when
         MockHttpServletResponse response = mockMvc
-                .perform(MockMvcRequestBuilders.get("/api/recipes"+"?page=1&size=10")
+                .perform(MockMvcRequestBuilders.get("/api/recipes" + "?page=1&size=10")
                         .with(SecurityMockMvcRequestPostProcessors.user(getSampleUser())))
                 .andReturn().getResponse();
 

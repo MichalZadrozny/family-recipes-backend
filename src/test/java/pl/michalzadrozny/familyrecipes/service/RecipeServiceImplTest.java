@@ -15,6 +15,8 @@ import pl.michalzadrozny.familyrecipes.repository.RecipeRepo;
 import pl.michalzadrozny.familyrecipes.repository.UserRepo;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOfType;
@@ -41,9 +43,16 @@ class RecipeServiceImplTest {
     private static RecipeDTO getValidRecipeDTO() {
         Rating rating = new Rating();
         Nutrients nutrients = new Nutrients(1L, 2, 3, 4, 5);
+
+        Map<Long, String> steps = new HashMap<>();
+        steps.put(1L, "Wlej mleko do miski");
+        steps.put(2L, "Wbij jajko do miski");
+        steps.put(3L, "Wymieszaj");
+        steps.put(4L, "Upiecz");
+
         AppUser user = getSampleUser();
 
-        RecipeDTO recipeDTO = new RecipeDTO(1L, "Test name", user.getUsername(), 15, rating, "Test description", null, nutrients, Diet.VEGETARIAN);
+        RecipeDTO recipeDTO = new RecipeDTO(1L, "Test name", user.getUsername(), 15, rating, "Test description", null, nutrients, Diet.VEGETARIAN, steps);
 
         Recipe recipe = RecipeMapper.recipeDtoToRecipeMapper(user).map(recipeDTO, Recipe.class);
         Ingredient ingredient1 = new Ingredient(1L, 100, "ml", "mleka");
@@ -59,7 +68,13 @@ class RecipeServiceImplTest {
         Nutrients nutrients = new Nutrients(1L, 2, 3, 4, 5);
         AppUser user = getSampleUser();
 
-        Recipe recipe = new Recipe(1L, "Test name", user, 15, rating, "Test description", null, nutrients, Diet.VEGETARIAN);
+        Map<Long, String> steps = new HashMap<>();
+        steps.put(1L, "Wlej mleko do miski");
+        steps.put(2L, "Wbij jajko do miski");
+        steps.put(3L, "Wymieszaj");
+        steps.put(4L, "Upiecz");
+
+        Recipe recipe = new Recipe(1L, "Test name", user, 15, rating, "Test description", null, nutrients, Diet.VEGETARIAN, steps);
 
         Ingredient ingredient1 = new Ingredient(1L, 100, "ml", "mleka");
         Ingredient ingredient2 = new Ingredient(2L, 2, null, "jajka");

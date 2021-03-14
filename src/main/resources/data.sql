@@ -31,6 +31,15 @@ VALUES (9999, 4, 1);
 INSERT INTO public.rating_ratings_map(rating_id, ratings_map, ratings_map_key)
 VALUES (9999, 5, 2);
 
+INSERT INTO public.recipe_steps(recipe_id, steps, steps_key)
+VALUES (9999, 'Wlej mleko do miski', 1);
+INSERT INTO public.recipe_steps(recipe_id, steps, steps_key)
+VALUES (9999, 'Wbij jajko do miski', 2);
+INSERT INTO public.recipe_steps(recipe_id, steps, steps_key)
+VALUES (9999, 'Wymieszaj', 3);
+INSERT INTO public.recipe_steps(recipe_id, steps, steps_key)
+VALUES (9999, 'Upiecz', 4);
+
 UPDATE public.recipes
 SET rating_id = 9999
 WHERE id = 9999;

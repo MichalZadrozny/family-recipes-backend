@@ -12,6 +12,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @AllArgsConstructor
@@ -37,4 +38,6 @@ public class RecipeDTO {
 
     @NotNull(message = "Nazwa użytkownika nie może być pusta")
     private Diet diet;
+
+    Map<Long, String> steps;
 }
