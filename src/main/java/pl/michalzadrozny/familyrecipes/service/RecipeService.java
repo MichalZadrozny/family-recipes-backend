@@ -6,6 +6,7 @@ import pl.michalzadrozny.familyrecipes.exception.UserDoesNotExistException;
 import pl.michalzadrozny.familyrecipes.model.dto.RecipeDTO;
 
 public interface RecipeService {
-    void addRecipe(RecipeDTO recipeDTO) throws RecipeAlreadyExistException, UserDoesNotExistException;
+    RecipeDTO addRecipe(RecipeDTO recipeDTO) throws RecipeAlreadyExistException, UserDoesNotExistException;
+
     void editRecipe(RecipeDTO recipeDTO) throws RecipeNotFoundException;
 }

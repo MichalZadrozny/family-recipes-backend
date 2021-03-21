@@ -364,20 +364,21 @@ class RecipeControllerTest {
     @Test
     void should_executeAddRecipe_when_addingRecipe() throws Exception {
         //        given
-        Recipe recipe = getValidRecipe();
+        RecipeDTO recipeDTO = getValidRecipeDTO();
+        given(recipeService.addRecipe(recipeDTO)).willReturn(recipeDTO);
 
         //        when
         MockHttpServletResponse response = mockMvc
                 .perform(MockMvcRequestBuilders.post("/api/recipes")
                         .characterEncoding("utf-8")
-                        .content(recipeJacksonTester.write(recipe).getJson())
+                        .content(recipeDTOJacksonTester.write(recipeDTO).getJson())
                         .contentType(MediaType.APPLICATION_JSON)
                         .with(SecurityMockMvcRequestPostProcessors.user(getSampleUser())))
                 .andReturn().getResponse();
 
         //        then
-        RecipeDTO recipeDTO = new Gson().fromJson(response.getContentAsString(), RecipeDTO.class);
-        verify(recipeService, times(1)).addRecipe(recipeDTO);
+        RecipeDTO output = new Gson().fromJson(response.getContentAsString(), RecipeDTO.class);
+        verify(recipeService, times(1)).addRecipe(output);
     }
 
 //   GET RECIPE PREVIEWS

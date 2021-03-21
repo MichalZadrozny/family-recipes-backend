@@ -42,14 +42,14 @@ public class RecipeController {
     }
 
     @PostMapping
-    public ResponseEntity<RecipeDTO> addRecipe(@RequestBody RecipeDTO recipe) {
+    public ResponseEntity<RecipeDTO> addRecipe(@RequestBody RecipeDTO recipeDTO) {
         try {
-            recipeService.addRecipe(recipe);
-            return ResponseEntity.status(HttpStatus.CREATED).body(recipe);
+            RecipeDTO outputRecipe = recipeService.addRecipe(recipeDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(outputRecipe);
         } catch (UserDoesNotExistException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } catch (RecipeAlreadyExistException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(recipe);
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(recipeDTO);
         }
     }
 

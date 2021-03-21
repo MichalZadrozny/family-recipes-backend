@@ -116,6 +116,7 @@ class RecipeServiceImplTest {
         Recipe recipe = getValidRecipe();
         given(recipeRepo.findByAuthorUsernameAndName(recipe.getAuthor().getUsername(), recipe.getName())).willReturn(Optional.empty());
         given(userRepo.findByUsername(recipe.getAuthor().getUsername())).willReturn(Optional.of(recipe.getAuthor()));
+        given(recipeRepo.save(recipe)).willReturn(recipe);
         RecipeDTO recipeDTO = RecipeMapper.recipeToRecipeDTOMapper().map(recipe, RecipeDTO.class);
 
 //        when

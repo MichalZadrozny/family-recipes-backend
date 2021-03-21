@@ -25,7 +25,7 @@ public class Recipe {
     private AppUser author;
     private int preparationTime; //In minutes
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Rating rating;
     private String description;
 
