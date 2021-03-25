@@ -31,4 +31,6 @@ public interface RecipeView {
 
     List<IngredientsView> getIngredients();
 
+    List<String> getSteps();
+
 }

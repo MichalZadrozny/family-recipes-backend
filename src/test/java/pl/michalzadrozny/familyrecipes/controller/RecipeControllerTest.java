@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -17,6 +18,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import pl.michalzadrozny.familyrecipes.exception.RecipeAlreadyExistException;
 import pl.michalzadrozny.familyrecipes.exception.UserDoesNotExistException;
 import pl.michalzadrozny.familyrecipes.model.dto.RecipeDTO;
+import pl.michalzadrozny.familyrecipes.model.dto.RecipePreviewDTO;
 import pl.michalzadrozny.familyrecipes.model.entity.*;
 import pl.michalzadrozny.familyrecipes.model.mapper.RecipeMapper;
 import pl.michalzadrozny.familyrecipes.model.view.IngredientsView;
@@ -26,11 +28,9 @@ import pl.michalzadrozny.familyrecipes.repository.UserRepo;
 import pl.michalzadrozny.familyrecipes.security.UserDetailsServiceImpl;
 import pl.michalzadrozny.familyrecipes.security.WebSecurityConfig;
 import pl.michalzadrozny.familyrecipes.service.RecipeService;
+import pl.michalzadrozny.familyrecipes.service.RecipeServiceImpl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
@@ -51,7 +51,7 @@ class RecipeControllerTest {
     private RecipeRepo recipeRepo;
 
     @MockBean
-    private RecipeService recipeService;
+    private RecipeServiceImpl recipeService;
 
     @Autowired
     private JacksonTester<Recipe> recipeJacksonTester;
@@ -62,6 +62,9 @@ class RecipeControllerTest {
     @Autowired
     private JacksonTester<RecipeView> recipeViewJacksonTester;
 
+    @Autowired
+    private JacksonTester<List<RecipePreviewDTO>> recipePreviewListJacksonTester;
+
     private static AppUser getSampleUser() {
         return new AppUser(1L, "testUser", "312345aD@", "testemail@email.com", true);
     }
@@ -69,9 +72,16 @@ class RecipeControllerTest {
     private static RecipeDTO getValidRecipeDTO() {
         Rating rating = new Rating();
         Nutrients nutrients = new Nutrients(1L, 2, 3, 4, 5);
+
+        List<String> steps = new ArrayList<>();
+        steps.add("Wlej mleko do miski");
+        steps.add("Wbij jajko do miski");
+        steps.add("Wymieszaj");
+        steps.add("Upiecz");
+
         AppUser user = getSampleUser();
 
-        RecipeDTO recipeDTO = new RecipeDTO(1L, "Test name", user.getUsername(), 15, rating, "Test description", null, nutrients, Diet.VEGETARIAN);
+        RecipeDTO recipeDTO = new RecipeDTO(1L, "Test name", user.getUsername(), 15, rating, "Test description", null, nutrients, Diet.VEGETARIAN, steps);
 
         Recipe recipe = RecipeMapper.recipeDtoToRecipeMapper(user).map(recipeDTO, Recipe.class);
         Ingredient ingredient1 = new Ingredient(1L, 100, "ml", "mleka");
@@ -87,7 +97,13 @@ class RecipeControllerTest {
         Nutrients nutrients = new Nutrients(1L, 2, 3, 4, 5);
         AppUser user = getSampleUser();
 
-        Recipe recipe = new Recipe(1L, "Test name", user, 15, rating, "Test description", null, nutrients, Diet.VEGETARIAN);
+        List<String> steps = new ArrayList<>();
+        steps.add("Wlej mleko do miski");
+        steps.add("Wbij jajko do miski");
+        steps.add("Wymieszaj");
+        steps.add("Upiecz");
+
+        Recipe recipe = new Recipe(1L, "Test name", user, 15, rating, "Test description", null, nutrients, Diet.VEGETARIAN, steps);
 
         Ingredient ingredient1 = new Ingredient(1L, 100, "ml", "mleka");
         Ingredient ingredient2 = new Ingredient(2L, 2, null, "jajka");
@@ -95,6 +111,10 @@ class RecipeControllerTest {
         recipe.setIngredients(Arrays.asList(ingredient1, ingredient2));
 
         return recipe;
+    }
+
+    private static RecipePreviewDTO getValidRecipePreviewDTO() {
+        return new RecipePreviewDTO("Test name", Diet.MEAT, 15, 4.5);
     }
 
     private static RecipeView getValidRecipeView() {
@@ -187,6 +207,17 @@ class RecipeControllerTest {
                 ingredients.add(ingredient2);
 
                 return ingredients;
+            }
+
+            @Override
+            public List<String> getSteps() {
+                List<String> steps = new ArrayList<>();
+                steps.add("Wlej mleko do miski");
+                steps.add("Wbij jajko do miski");
+                steps.add("Wymieszaj");
+                steps.add("Upiecz");
+
+                return steps;
             }
         };
     }
@@ -334,22 +365,80 @@ class RecipeControllerTest {
     @Test
     void should_executeAddRecipe_when_addingRecipe() throws Exception {
         //        given
-        Recipe recipe = getValidRecipe();
+        RecipeDTO recipeDTO = getValidRecipeDTO();
+        given(recipeService.addRecipe(recipeDTO)).willReturn(recipeDTO);
 
         //        when
         MockHttpServletResponse response = mockMvc
                 .perform(MockMvcRequestBuilders.post("/api/recipes")
                         .characterEncoding("utf-8")
-                        .content(recipeJacksonTester.write(recipe).getJson())
+                        .content(recipeDTOJacksonTester.write(recipeDTO).getJson())
                         .contentType(MediaType.APPLICATION_JSON)
                         .with(SecurityMockMvcRequestPostProcessors.user(getSampleUser())))
                 .andReturn().getResponse();
 
         //        then
-        RecipeDTO recipeDTO = new Gson().fromJson(response.getContentAsString(), RecipeDTO.class);
-        verify(recipeService, times(1)).addRecipe(recipeDTO);
+        RecipeDTO output = new Gson().fromJson(response.getContentAsString(), RecipeDTO.class);
+        verify(recipeService, times(1)).addRecipe(output);
     }
 
-//    GET RECIPE PREVIEWS
+//   GET RECIPE PREVIEWS
+
+    @Test
+    void should_returnForbiddenStatus_when_gettingRecipePreviewsWithoutAToken() throws Exception {
+        //        given
+        //        when
+        MockHttpServletResponse response = mockMvc
+                .perform(MockMvcRequestBuilders.get("/api/recipes"))
+                .andReturn().getResponse();
+
+        //        then
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.FORBIDDEN.value());
+    }
+
+    @Test
+    void should_returnOkStatus_when_returningRecipePreviews() throws Exception {
+        //        given
+        //        when
+        MockHttpServletResponse response = mockMvc
+                .perform(MockMvcRequestBuilders.get("/api/recipes")
+                        .with(SecurityMockMvcRequestPostProcessors.user(getSampleUser())))
+                .andReturn().getResponse();
+
+        //        then
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    @Test
+    void should_returnEmptyRecipePreviewsList_when_repositoryReturnsNothing() throws Exception {
+        //        given
+        given(recipeRepo.findAllRecipePreviews(PageRequest.of(0, 10))).willReturn(Collections.emptyList());
+
+        //        when
+        MockHttpServletResponse response = mockMvc
+                .perform(MockMvcRequestBuilders.get("/api/recipes" + "?page=1&size=10")
+                        .with(SecurityMockMvcRequestPostProcessors.user(getSampleUser())))
+                .andReturn().getResponse();
+
+        //        then
+        assertThat(response.getContentAsString()).isEqualTo(recipePreviewListJacksonTester.write(Collections.emptyList()).getJson());
+    }
+
+    @Test
+    void should_listOfRecipePreviews_when_repositoryReturnsFilledList() throws Exception {
+        //        given
+        given(recipeRepo.findAllRecipePreviews(PageRequest.of(1, 10))).willReturn(List.of(getValidRecipePreviewDTO()));
+
+        //        when
+        MockHttpServletResponse response = mockMvc
+                .perform(MockMvcRequestBuilders.get("/api/recipes" + "?page=1&size=10")
+                        .with(SecurityMockMvcRequestPostProcessors.user(getSampleUser())))
+                .andReturn().getResponse();
+
+        //        then
+        assertThat(response.getContentAsString()).isEqualTo(recipePreviewListJacksonTester.write(List.of(getValidRecipePreviewDTO())).getJson());
+    }
+
 //    EDIT RECIPE
+
 }

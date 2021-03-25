@@ -14,8 +14,7 @@ import pl.michalzadrozny.familyrecipes.model.mapper.RecipeMapper;
 import pl.michalzadrozny.familyrecipes.repository.RecipeRepo;
 import pl.michalzadrozny.familyrecipes.repository.UserRepo;
 
-import java.util.Arrays;
-import java.util.Optional;
+import java.util.*;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOfType;
 import static org.mockito.BDDMockito.given;
@@ -41,9 +40,15 @@ class RecipeServiceImplTest {
     private static RecipeDTO getValidRecipeDTO() {
         Rating rating = new Rating();
         Nutrients nutrients = new Nutrients(1L, 2, 3, 4, 5);
+
+        List<String> steps = new ArrayList<>();
+        steps.add("Wlej mleko do miski");
+        steps.add("Wbij jajko do miski");
+        steps.add("Wymieszaj");
+        steps.add("Upiecz");
         AppUser user = getSampleUser();
 
-        RecipeDTO recipeDTO = new RecipeDTO(1L, "Test name", user.getUsername(), 15, rating, "Test description", null, nutrients, Diet.VEGETARIAN);
+        RecipeDTO recipeDTO = new RecipeDTO(1L, "Test name", user.getUsername(), 15, rating, "Test description", null, nutrients, Diet.VEGETARIAN, steps);
 
         Recipe recipe = RecipeMapper.recipeDtoToRecipeMapper(user).map(recipeDTO, Recipe.class);
         Ingredient ingredient1 = new Ingredient(1L, 100, "ml", "mleka");
@@ -59,7 +64,13 @@ class RecipeServiceImplTest {
         Nutrients nutrients = new Nutrients(1L, 2, 3, 4, 5);
         AppUser user = getSampleUser();
 
-        Recipe recipe = new Recipe(1L, "Test name", user, 15, rating, "Test description", null, nutrients, Diet.VEGETARIAN);
+        List<String> steps = new ArrayList<>();
+        steps.add("Wlej mleko do miski");
+        steps.add("Wbij jajko do miski");
+        steps.add("Wymieszaj");
+        steps.add("Upiecz");
+
+        Recipe recipe = new Recipe(1L, "Test name", user, 15, rating, "Test description", null, nutrients, Diet.VEGETARIAN, steps);
 
         Ingredient ingredient1 = new Ingredient(1L, 100, "ml", "mleka");
         Ingredient ingredient2 = new Ingredient(2L, 2, null, "jajka");
@@ -101,6 +112,7 @@ class RecipeServiceImplTest {
         Recipe recipe = getValidRecipe();
         given(recipeRepo.findByAuthorUsernameAndName(recipe.getAuthor().getUsername(), recipe.getName())).willReturn(Optional.empty());
         given(userRepo.findByUsername(recipe.getAuthor().getUsername())).willReturn(Optional.of(recipe.getAuthor()));
+        given(recipeRepo.save(recipe)).willReturn(recipe);
         RecipeDTO recipeDTO = RecipeMapper.recipeToRecipeDTOMapper().map(recipe, RecipeDTO.class);
 
 //        when

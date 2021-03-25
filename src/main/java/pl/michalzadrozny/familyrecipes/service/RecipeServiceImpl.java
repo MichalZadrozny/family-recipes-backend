@@ -7,6 +7,7 @@ import pl.michalzadrozny.familyrecipes.exception.RecipeNotFoundException;
 import pl.michalzadrozny.familyrecipes.exception.UserDoesNotExistException;
 import pl.michalzadrozny.familyrecipes.model.dto.RecipeDTO;
 import pl.michalzadrozny.familyrecipes.model.entity.AppUser;
+import pl.michalzadrozny.familyrecipes.model.entity.Rating;
 import pl.michalzadrozny.familyrecipes.model.entity.Recipe;
 import pl.michalzadrozny.familyrecipes.model.mapper.RecipeMapper;
 import pl.michalzadrozny.familyrecipes.repository.RecipeRepo;
@@ -27,7 +28,7 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public void addRecipe(RecipeDTO recipeDTO) throws RecipeAlreadyExistException, UserDoesNotExistException {
+    public RecipeDTO addRecipe(RecipeDTO recipeDTO) throws RecipeAlreadyExistException, UserDoesNotExistException {
         Optional<Recipe> recipe = recipeRepo.findByAuthorUsernameAndName(recipeDTO.getUsername(), recipeDTO.getName());
 
         recipe.ifPresent(x -> {
@@ -38,7 +39,13 @@ public class RecipeServiceImpl implements RecipeService {
                 .findByUsername(recipeDTO.getUsername())
                 .orElseThrow(() -> new UserDoesNotExistException("Użytkownik o nazwie " + recipeDTO.getUsername() + " nie istnieje"));
 
-        recipeRepo.save(RecipeMapper.recipeDtoToRecipeMapper(user).map(recipeDTO, Recipe.class));
+        Recipe outputRecipe = RecipeMapper.recipeDtoToRecipeMapper(user).map(recipeDTO, Recipe.class);
+        outputRecipe.setRating(new Rating());
+
+        Recipe save = recipeRepo.save(outputRecipe);
+        recipeDTO.setId(save.getId());
+
+        return recipeDTO;
     }
 
     @Override

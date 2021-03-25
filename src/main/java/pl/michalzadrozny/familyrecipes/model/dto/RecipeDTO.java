@@ -37,4 +37,6 @@ public class RecipeDTO {
 
     @NotNull(message = "Nazwa użytkownika nie może być pusta")
     private Diet diet;
+
+    private List<String> steps;
 }
