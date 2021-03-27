@@ -14,10 +14,7 @@ import pl.michalzadrozny.familyrecipes.model.mapper.RecipeMapper;
 import pl.michalzadrozny.familyrecipes.repository.RecipeRepo;
 import pl.michalzadrozny.familyrecipes.repository.UserRepo;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOfType;
 import static org.mockito.BDDMockito.given;
@@ -44,12 +41,11 @@ class RecipeServiceImplTest {
         Rating rating = new Rating();
         Nutrients nutrients = new Nutrients(1L, 2, 3, 4, 5);
 
-        Map<Long, String> steps = new HashMap<>();
-        steps.put(1L, "Wlej mleko do miski");
-        steps.put(2L, "Wbij jajko do miski");
-        steps.put(3L, "Wymieszaj");
-        steps.put(4L, "Upiecz");
-
+        List<String> steps = new ArrayList<>();
+        steps.add("Wlej mleko do miski");
+        steps.add("Wbij jajko do miski");
+        steps.add("Wymieszaj");
+        steps.add("Upiecz");
         AppUser user = getSampleUser();
 
         RecipeDTO recipeDTO = new RecipeDTO(1L, "Test name", user.getUsername(), 15, rating, "Test description", null, nutrients, Diet.VEGETARIAN, steps);
@@ -68,11 +64,11 @@ class RecipeServiceImplTest {
         Nutrients nutrients = new Nutrients(1L, 2, 3, 4, 5);
         AppUser user = getSampleUser();
 
-        Map<Long, String> steps = new HashMap<>();
-        steps.put(1L, "Wlej mleko do miski");
-        steps.put(2L, "Wbij jajko do miski");
-        steps.put(3L, "Wymieszaj");
-        steps.put(4L, "Upiecz");
+        List<String> steps = new ArrayList<>();
+        steps.add("Wlej mleko do miski");
+        steps.add("Wbij jajko do miski");
+        steps.add("Wymieszaj");
+        steps.add("Upiecz");
 
         Recipe recipe = new Recipe(1L, "Test name", user, 15, rating, "Test description", null, nutrients, Diet.VEGETARIAN, steps);
 

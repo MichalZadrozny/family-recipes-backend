@@ -5,7 +5,6 @@ import pl.michalzadrozny.familyrecipes.model.entity.Diet;
 import pl.michalzadrozny.familyrecipes.model.entity.Nutrients;
 
 import java.util.List;
-import java.util.Map;
 
 public interface RecipeView {
 
@@ -32,6 +31,6 @@ public interface RecipeView {
 
     List<IngredientsView> getIngredients();
 
-    Map<Long, String> getSteps();
+    List<String> getSteps();
 
 }

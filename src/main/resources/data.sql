@@ -33,14 +33,14 @@ VALUES (9999, 4, 1);
 INSERT INTO public.rating_ratings_map(rating_id, ratings_map, ratings_map_key)
 VALUES (9999, 5, 2);
 
-INSERT INTO public.recipe_steps(recipe_id, steps, steps_key)
-VALUES (9999, 'Rozgnieć banana w misce', 1);
-INSERT INTO public.recipe_steps(recipe_id, steps, steps_key)
-VALUES (9999, 'Dodaj wszystkie składniki i wymieszaj', 2);
-INSERT INTO public.recipe_steps(recipe_id, steps, steps_key)
-VALUES (9999, 'Rozgrzej patelnię na średnim ogniu i dodaj preferowany tłuszcz', 3);
-INSERT INTO public.recipe_steps(recipe_id, steps, steps_key)
-VALUES (9999, 'Smaż do momentu aż placuszki będą lekko brązowe', 4);
+INSERT INTO public.recipe_steps(recipe_id, steps)
+VALUES (9999, 'Rozgnieć banana w misce');
+INSERT INTO public.recipe_steps(recipe_id, steps)
+VALUES (9999, 'Dodaj wszystkie składniki i wymieszaj');
+INSERT INTO public.recipe_steps(recipe_id, steps)
+VALUES (9999, 'Rozgrzej patelnię na średnim ogniu i dodaj preferowany tłuszcz');
+INSERT INTO public.recipe_steps(recipe_id, steps)
+VALUES (9999, 'Smaż do momentu aż placuszki będą lekko brązowe');
 
 UPDATE public.recipes
 SET rating_id = 9999
@@ -78,16 +78,16 @@ VALUES (10000, 4, 1);
 INSERT INTO public.rating_ratings_map(rating_id, ratings_map, ratings_map_key)
 VALUES (10000, 4, 2);
 
-INSERT INTO public.recipe_steps(recipe_id, steps, steps_key)
-VALUES (10000, 'Posiekaj cebulę oraz kiełbasę w kostkę', 1);
-INSERT INTO public.recipe_steps(recipe_id, steps, steps_key)
-VALUES (10000, 'Rozgrzej patelnię na średnim ogniu i dodaj preferowany tłuszcz', 2);
-INSERT INTO public.recipe_steps(recipe_id, steps, steps_key)
-VALUES (10000, 'Lekko podsmaż cebulę a następnie dodaj kiełbasę', 3);
-INSERT INTO public.recipe_steps(recipe_id, steps, steps_key)
-VALUES (10000, 'Jak kiełbasa się podsmaży, zmniejsz ogień i dodaj jajka oraz przyprawy', 4);
-INSERT INTO public.recipe_steps(recipe_id, steps, steps_key)
-VALUES (10000, 'Smaż jajecznicę do momenctu lekkiego ścięcia', 5);
+INSERT INTO public.recipe_steps(recipe_id, steps)
+VALUES (10000, 'Posiekaj cebulę oraz kiełbasę w kostkę');
+INSERT INTO public.recipe_steps(recipe_id, steps)
+VALUES (10000, 'Rozgrzej patelnię na średnim ogniu i dodaj preferowany tłuszcz');
+INSERT INTO public.recipe_steps(recipe_id, steps)
+VALUES (10000, 'Lekko podsmaż cebulę a następnie dodaj kiełbasę');
+INSERT INTO public.recipe_steps(recipe_id, steps)
+VALUES (10000, 'Jak kiełbasa się podsmaży, zmniejsz ogień i dodaj jajka oraz przyprawy');
+INSERT INTO public.recipe_steps(recipe_id, steps)
+VALUES (10000, 'Smaż jajecznicę do momenctu lekkiego ścięcia');
 
 UPDATE public.recipes
 SET rating_id = 10000
@@ -127,12 +127,12 @@ VALUES (10001, 5, 1);
 INSERT INTO public.rating_ratings_map(rating_id, ratings_map, ratings_map_key)
 VALUES (10001, 5, 2);
 
-INSERT INTO public.recipe_steps(recipe_id, steps, steps_key)
-VALUES (10001, 'Wrzuć do garnka płatki owsiane i zalej wodą a następnie gotuj na lekkim ogniu do momentu aż płatki wchłoną wodę', 1);
-INSERT INTO public.recipe_steps(recipe_id, steps, steps_key)
-VALUES (10001, 'Przerzuc płatki do miseczki, dodaj werek wiejski i łyżeczkę miodu, a następnie wszystko razem wymieszaj', 2);
-INSERT INTO public.recipe_steps(recipe_id, steps, steps_key)
-VALUES (10001, 'Na wierzch dania dodaj posiekane orzechy oraz pokrojonego banana', 3);
+INSERT INTO public.recipe_steps(recipe_id, steps)
+VALUES (10001, 'Wrzuć do garnka płatki owsiane i zalej wodą a następnie gotuj na lekkim ogniu do momentu aż płatki wchłoną wodę');
+INSERT INTO public.recipe_steps(recipe_id, steps)
+VALUES (10001, 'Przerzuc płatki do miseczki, dodaj werek wiejski i łyżeczkę miodu, a następnie wszystko razem wymieszaj');
+INSERT INTO public.recipe_steps(recipe_id, steps)
+VALUES (10001, 'Na wierzch dania dodaj posiekane orzechy oraz pokrojonego banana');
 
 
 UPDATE public.recipes

@@ -28,6 +28,7 @@ import pl.michalzadrozny.familyrecipes.repository.UserRepo;
 import pl.michalzadrozny.familyrecipes.security.UserDetailsServiceImpl;
 import pl.michalzadrozny.familyrecipes.security.WebSecurityConfig;
 import pl.michalzadrozny.familyrecipes.service.RecipeService;
+import pl.michalzadrozny.familyrecipes.service.RecipeServiceImpl;
 
 import java.util.*;
 
@@ -50,7 +51,7 @@ class RecipeControllerTest {
     private RecipeRepo recipeRepo;
 
     @MockBean
-    private RecipeService recipeService;
+    private RecipeServiceImpl recipeService;
 
     @Autowired
     private JacksonTester<Recipe> recipeJacksonTester;
@@ -72,11 +73,11 @@ class RecipeControllerTest {
         Rating rating = new Rating();
         Nutrients nutrients = new Nutrients(1L, 2, 3, 4, 5);
 
-        Map<Long, String> steps = new HashMap<>();
-        steps.put(1L, "Wlej mleko do miski");
-        steps.put(2L, "Wbij jajko do miski");
-        steps.put(3L, "Wymieszaj");
-        steps.put(4L, "Upiecz");
+        List<String> steps = new ArrayList<>();
+        steps.add("Wlej mleko do miski");
+        steps.add("Wbij jajko do miski");
+        steps.add("Wymieszaj");
+        steps.add("Upiecz");
 
         AppUser user = getSampleUser();
 
@@ -96,11 +97,11 @@ class RecipeControllerTest {
         Nutrients nutrients = new Nutrients(1L, 2, 3, 4, 5);
         AppUser user = getSampleUser();
 
-        Map<Long, String> steps = new HashMap<>();
-        steps.put(1L, "Wlej mleko do miski");
-        steps.put(2L, "Wbij jajko do miski");
-        steps.put(3L, "Wymieszaj");
-        steps.put(4L, "Upiecz");
+        List<String> steps = new ArrayList<>();
+        steps.add("Wlej mleko do miski");
+        steps.add("Wbij jajko do miski");
+        steps.add("Wymieszaj");
+        steps.add("Upiecz");
 
         Recipe recipe = new Recipe(1L, "Test name", user, 15, rating, "Test description", null, nutrients, Diet.VEGETARIAN, steps);
 
@@ -209,12 +210,12 @@ class RecipeControllerTest {
             }
 
             @Override
-            public Map<Long, String> getSteps() {
-                Map<Long, String> steps = new HashMap<>();
-                steps.put(1L, "Wlej mleko do miski");
-                steps.put(2L, "Wbij jajko do miski");
-                steps.put(3L, "Wymieszaj");
-                steps.put(4L, "Upiecz");
+            public List<String> getSteps() {
+                List<String> steps = new ArrayList<>();
+                steps.add("Wlej mleko do miski");
+                steps.add("Wbij jajko do miski");
+                steps.add("Wymieszaj");
+                steps.add("Upiecz");
 
                 return steps;
             }
