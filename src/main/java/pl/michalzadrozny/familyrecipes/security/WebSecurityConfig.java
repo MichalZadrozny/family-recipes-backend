@@ -46,6 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/api/user/sign-up").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/user/verify-token").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/user/login").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/recipes").permitAll()
                 .antMatchers(SWAGGER_URLS).permitAll()
                 .anyRequest().authenticated()
                 .and()
