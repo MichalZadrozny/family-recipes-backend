@@ -27,7 +27,6 @@ import pl.michalzadrozny.familyrecipes.repository.RecipeRepo;
 import pl.michalzadrozny.familyrecipes.repository.UserRepo;
 import pl.michalzadrozny.familyrecipes.security.UserDetailsServiceImpl;
 import pl.michalzadrozny.familyrecipes.security.WebSecurityConfig;
-import pl.michalzadrozny.familyrecipes.service.RecipeService;
 import pl.michalzadrozny.familyrecipes.service.RecipeServiceImpl;
 
 import java.util.*;
@@ -114,7 +113,7 @@ class RecipeControllerTest {
     }
 
     private static RecipePreviewDTO getValidRecipePreviewDTO() {
-        return new RecipePreviewDTO("Test name", Diet.MEAT, 15, 4.5);
+        return new RecipePreviewDTO(1, "Test name", Diet.MEAT, 15, 4.5);
     }
 
     private static RecipeView getValidRecipeView() {
@@ -385,25 +384,13 @@ class RecipeControllerTest {
 //   GET RECIPE PREVIEWS
 
     @Test
-    void should_returnForbiddenStatus_when_gettingRecipePreviewsWithoutAToken() throws Exception {
-        //        given
-        //        when
-        MockHttpServletResponse response = mockMvc
-                .perform(MockMvcRequestBuilders.get("/api/recipes"))
-                .andReturn().getResponse();
-
-        //        then
-        assertThat(response.getStatus()).isEqualTo(HttpStatus.FORBIDDEN.value());
-    }
-
-    @Test
     void should_returnOkStatus_when_returningRecipePreviews() throws Exception {
         //        given
         //        when
         MockHttpServletResponse response = mockMvc
-                .perform(MockMvcRequestBuilders.get("/api/recipes")
-                        .with(SecurityMockMvcRequestPostProcessors.user(getSampleUser())))
-                .andReturn().getResponse();
+                .perform(MockMvcRequestBuilders.get("/api/recipes"))
+                .andReturn()
+                .getResponse();
 
         //        then
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
@@ -416,9 +403,9 @@ class RecipeControllerTest {
 
         //        when
         MockHttpServletResponse response = mockMvc
-                .perform(MockMvcRequestBuilders.get("/api/recipes" + "?page=1&size=10")
-                        .with(SecurityMockMvcRequestPostProcessors.user(getSampleUser())))
-                .andReturn().getResponse();
+                .perform(MockMvcRequestBuilders.get("/api/recipes" + "?page=1&size=10"))
+                .andReturn()
+                .getResponse();
 
         //        then
         assertThat(response.getContentAsString()).isEqualTo(recipePreviewListJacksonTester.write(Collections.emptyList()).getJson());
@@ -431,9 +418,9 @@ class RecipeControllerTest {
 
         //        when
         MockHttpServletResponse response = mockMvc
-                .perform(MockMvcRequestBuilders.get("/api/recipes" + "?page=1&size=10")
-                        .with(SecurityMockMvcRequestPostProcessors.user(getSampleUser())))
-                .andReturn().getResponse();
+                .perform(MockMvcRequestBuilders.get("/api/recipes" + "?page=1&size=10"))
+                .andReturn()
+                .getResponse();
 
         //        then
         assertThat(response.getContentAsString()).isEqualTo(recipePreviewListJacksonTester.write(List.of(getValidRecipePreviewDTO())).getJson());
