@@ -21,7 +21,7 @@ public class Ingredient {
     @Min(value = 0, message = "Ilość nie może być mniejsza niż 0")
     private double amount;
 
-    @NotBlank(message = "Nazwa przepisu nie może być pusta")
+    @NotBlank(message = "Nazwa składniku nie może być pusta")
     private String name;
     private String unit;
 }
