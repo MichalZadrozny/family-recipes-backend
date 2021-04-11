@@ -95,9 +95,9 @@ WHERE id = 10000;
 
 -- Recipe 3
 
-INSERT INTO public.recipes(id, description, diet, name, preparation_time, author_id, nutrients_id, rating_id)
+INSERT INTO public.recipes(id, description, diet, name, preparation_time, author_id, nutrients_id, rating_id, image_name)
 VALUES (10001, 'Przepyszna słodka owsianka', 0,
-        'Owsianka z serkiem wiejskim i bananem', 5, 9999, null, null);
+        'Owsianka z serkiem wiejskim i bananem', 5, 9999, null, null, '10001.jpg');
 
 INSERT INTO public.ingredients(id, amount, name, unit, recipe_id)
 VALUES (10009, 200, 'Serka Wiejskiego', 'gram', 10000);
@@ -133,7 +133,6 @@ INSERT INTO public.recipe_steps(recipe_id, steps)
 VALUES (10001, 'Przerzuc płatki do miseczki, dodaj werek wiejski i łyżeczkę miodu, a następnie wszystko razem wymieszaj');
 INSERT INTO public.recipe_steps(recipe_id, steps)
 VALUES (10001, 'Na wierzch dania dodaj posiekane orzechy oraz pokrojonego banana');
-
 
 UPDATE public.recipes
 SET rating_id = 10001

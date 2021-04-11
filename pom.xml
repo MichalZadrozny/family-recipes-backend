@@ -97,6 +97,11 @@
             <version>${spring.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-aws</artifactId>
+            <version>2.2.6.RELEASE</version>
+        </dependency>
+        <dependency>
             <groupId>org.modelmapper</groupId>
             <artifactId>modelmapper</artifactId>
             <version>2.3.9</version>
@@ -110,6 +115,11 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.8.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <version>${spring.version}</version>
         </dependency>
 
         <!--        TESTS           -->

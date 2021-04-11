@@ -38,4 +38,6 @@ public class Recipe {
 
     @ElementCollection
     private List<String> steps;
+
+    private String imageName;
 }
