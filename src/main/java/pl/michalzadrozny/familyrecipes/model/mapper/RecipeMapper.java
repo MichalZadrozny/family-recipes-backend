@@ -21,6 +21,12 @@ public class RecipeMapper {
         return outputRecipe;
     }
 
+    public static RecipeDTO convertRecipeToRecipeDTO(Recipe recipe){
+        RecipeDTO outputRecipe = modelMapper.map(recipe, RecipeDTO.class);
+        outputRecipe.setUsername(recipe.getAuthor().getUsername());
+        return outputRecipe;
+    }
+
     public static Recipe convertAddRecipeDTOtoRecipe(AddRecipeDTO addRecipeDTO, AppUser user){
         Recipe recipe = modelMapper.map(addRecipeDTO, Recipe.class);
         recipe.setAuthor(user);

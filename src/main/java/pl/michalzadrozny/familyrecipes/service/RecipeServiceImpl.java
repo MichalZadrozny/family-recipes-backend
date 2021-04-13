@@ -1,7 +1,6 @@
 package pl.michalzadrozny.familyrecipes.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,7 +27,6 @@ public class RecipeServiceImpl implements RecipeService {
     private final RecipeRepo recipeRepo;
     private final UserRepo userRepo;
     private final StorageService storageService;
-    private final ModelMapper modelMapper = new ModelMapper();
 
     @Autowired
     public RecipeServiceImpl(RecipeRepo recipeRepo, UserRepo userRepo, StorageService storageService) {
@@ -65,7 +63,7 @@ public class RecipeServiceImpl implements RecipeService {
                 throw new InternalServerErrorException();
             }
         }
-        return modelMapper.map(savedRecipe, RecipeDTO.class);
+        return RecipeMapper.convertRecipeToRecipeDTO(savedRecipe);
     }
 
     @Override
