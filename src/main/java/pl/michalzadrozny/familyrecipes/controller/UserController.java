@@ -10,10 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.michalzadrozny.familyrecipes.exception.EmailAlreadyExistsException;
 import pl.michalzadrozny.familyrecipes.exception.UsernameAlreadyExistsException;
-import pl.michalzadrozny.familyrecipes.model.mapper.UserMapper;
 import pl.michalzadrozny.familyrecipes.model.dto.LoginDTO;
 import pl.michalzadrozny.familyrecipes.model.dto.SignUpDTO;
 import pl.michalzadrozny.familyrecipes.model.entity.AppUser;
+import pl.michalzadrozny.familyrecipes.model.mapper.UserMapper;
 import pl.michalzadrozny.familyrecipes.service.RegistrationService;
 import pl.michalzadrozny.familyrecipes.service.UserService;
 
@@ -39,8 +39,10 @@ public class UserController {
         try {
             userService.addNewUser(UserMapper.signUpDtoToAppUserMapper().map(user, AppUser.class));
             return ResponseEntity.status(HttpStatus.CREATED).build();
-        } catch (UsernameAlreadyExistsException | EmailAlreadyExistsException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        } catch (UsernameAlreadyExistsException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Podana nazwa użytkownika jest już zajęta");
+        } catch (EmailAlreadyExistsException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Podany adres email jest już zajęty");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
