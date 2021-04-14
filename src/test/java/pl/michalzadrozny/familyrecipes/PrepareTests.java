@@ -213,6 +213,10 @@ public class PrepareTests {
 
                 return steps;
             }
+
+            public String getImageName(){
+                return "1.jpg";
+            }
         };
     }
 

@@ -33,4 +33,5 @@ public interface RecipeView {
 
     List<String> getSteps();
 
+    String getImageName();
 }
