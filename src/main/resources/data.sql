@@ -100,17 +100,17 @@ VALUES (10001, 'Przepyszna słodka owsianka', 0,
         'Owsianka z serkiem wiejskim i bananem', 5, 9999, null, null, '10001.jpg');
 
 INSERT INTO public.ingredients(id, amount, name, unit, recipe_id)
-VALUES (10009, 200, 'Serka Wiejskiego', 'gram', 10000);
+VALUES (10009, 200, 'Serka Wiejskiego', 'gram', 10001);
 INSERT INTO public.ingredients(id, amount, name, unit, recipe_id)
-VALUES (10010, 4, 'Płatków owsianych', 'łyżki', 10000);
+VALUES (10010, 4, 'Płatków owsianych', 'łyżki', 10001);
 INSERT INTO public.ingredients(id, amount, name, unit, recipe_id)
-VALUES (10011, 0.6, 'Wody', 'szklanki', 10000);
+VALUES (10011, 0.6, 'Wody', 'szklanki', 10001);
 INSERT INTO public.ingredients(id, amount, name, unit, recipe_id)
-VALUES (10012, 1, 'Banan', null, 10000);
+VALUES (10012, 1, 'Banan', null, 10001);
 INSERT INTO public.ingredients(id, amount, name, unit, recipe_id)
-VALUES (10013, 1, 'Miodu', 'łyżeczka', 10000);
+VALUES (10013, 1, 'Miodu', 'łyżeczka', 10001);
 INSERT INTO public.ingredients(id, amount, name, unit, recipe_id)
-VALUES (10014, 1, 'Posiekanych orzechów włoskich lub innych', 'łyżeczka', 10000);
+VALUES (10014, 1, 'Posiekanych orzechów włoskich lub innych', 'łyżeczka', 10001);
 
 INSERT INTO public.nutrients(id, calories, proteins, fats, carbs)
 VALUES (10001, 553, 30.4, 17.4, 71.9);
