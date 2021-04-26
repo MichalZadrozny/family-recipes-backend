@@ -29,12 +29,12 @@ public class Rating {
         this.ratingsMap = new HashMap<>();
     }
 
-    public void addRating(AppUser user, int rating) {
+    public void addRating(long userId, int rating) throws IncorrectRatingException {
         if (rating > 5 || rating < 1) {
             throw new IncorrectRatingException();
         }
 
-        ratingsMap.put(user.getId(), rating);
+        ratingsMap.put(userId, rating);
         averageRating = calculateAverageRating();
     }
 

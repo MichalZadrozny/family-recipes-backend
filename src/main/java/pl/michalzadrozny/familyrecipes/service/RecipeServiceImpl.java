@@ -4,10 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import pl.michalzadrozny.familyrecipes.exception.InternalServerErrorException;
-import pl.michalzadrozny.familyrecipes.exception.RecipeAlreadyExistException;
-import pl.michalzadrozny.familyrecipes.exception.RecipeNotFoundException;
-import pl.michalzadrozny.familyrecipes.exception.UserDoesNotExistException;
+import pl.michalzadrozny.familyrecipes.exception.*;
 import pl.michalzadrozny.familyrecipes.model.dto.AddRecipeDTO;
 import pl.michalzadrozny.familyrecipes.model.dto.RecipeDTO;
 import pl.michalzadrozny.familyrecipes.model.entity.AppUser;
@@ -79,5 +76,20 @@ public class RecipeServiceImpl implements RecipeService {
                 .orElseThrow(() -> new UserDoesNotExistException("Użytkownik o nazwie " + recipeDTO.getUsername() + " nie istnieje"));
 
         recipeRepo.save(RecipeMapper.recipeDtoToRecipeMapper(user).map(recipeDTO, Recipe.class));
+    }
+
+    @Override
+    public RecipeDTO addRating(long recipeId, long userId, int newRating) throws RecipeNotFoundException, IncorrectRatingException {
+
+        Optional<Recipe> recipe = recipeRepo.findById(recipeId);
+
+        if (recipe.isEmpty()) {
+            throw new RecipeNotFoundException("Przepis nie został odnaleziony");
+        }
+
+        recipe.get().getRating().addRating(userId, newRating);
+        recipeRepo.save(recipe.get());
+
+        return RecipeMapper.convertRecipeToRecipeDTO(recipe.get());
     }
 }

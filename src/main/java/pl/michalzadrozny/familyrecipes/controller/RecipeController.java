@@ -8,10 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import pl.michalzadrozny.familyrecipes.exception.InternalServerErrorException;
-import pl.michalzadrozny.familyrecipes.exception.RecipeAlreadyExistException;
-import pl.michalzadrozny.familyrecipes.exception.RecipeNotFoundException;
-import pl.michalzadrozny.familyrecipes.exception.UserDoesNotExistException;
+import pl.michalzadrozny.familyrecipes.exception.*;
 import pl.michalzadrozny.familyrecipes.model.dto.AddRecipeDTO;
 import pl.michalzadrozny.familyrecipes.model.dto.RecipeDTO;
 import pl.michalzadrozny.familyrecipes.model.dto.RecipePreviewDTO;
@@ -70,5 +67,18 @@ public class RecipeController {
         } catch (RecipeNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PostMapping("/rating")
+    public ResponseEntity<RecipeDTO> addRating(@RequestParam long userId, @RequestParam long recipeId, @RequestParam int newRating) {
+        try {
+            RecipeDTO recipeDTO = recipeService.addRating(recipeId, userId, newRating);
+            return ResponseEntity.status(HttpStatus.OK).body(recipeDTO);
+        } catch (RecipeNotFoundException | UserDoesNotExistException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } catch (IncorrectRatingException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+
     }
 }

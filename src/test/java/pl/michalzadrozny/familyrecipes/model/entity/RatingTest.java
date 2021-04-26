@@ -12,28 +12,19 @@ class RatingTest {
     private Rating rating;
 
     @BeforeEach
-    void initiateRating(){
+    void initiateRating() {
         rating = new Rating();
-    }
-
-    private static AppUser getSampleUser() {
-        AppUser user = new AppUser();
-        user.setUsername("testUser");
-        user.setPassword("312345aD@");
-        user.setEmail("testemail@email.com");
-        return user;
     }
 
     @Test
     void should_overwritePreviousRating_when_userVotesAgain() {
         //        given
-        rating.addRating(getSampleUser(),4);
-        rating.addRating(getSampleUser(),3);
+        rating.addRating(1, 4);
+        rating.addRating(1, 3);
 
         //        when
         //        then
-        assertThat(rating.ratingsMap).containsEntry(getSampleUser().getId(),3);
-        assertThat(rating.ratingsMap).doesNotContainEntry(getSampleUser().getId(),4);
+        assertThat(rating.ratingsMap).containsEntry(1L, 3).doesNotContainEntry(1L, 4);
     }
 
     @Test
@@ -41,9 +32,9 @@ class RatingTest {
         //        given
         //        when
         //        then
-        assertThatExceptionOfType(IncorrectRatingException.class).isThrownBy(() -> rating.addRating(getSampleUser(),0));
-        assertThatExceptionOfType(IncorrectRatingException.class).isThrownBy(() -> rating.addRating(getSampleUser(),-1));
-        assertThatExceptionOfType(IncorrectRatingException.class).isThrownBy(() -> rating.addRating(getSampleUser(),Integer.MIN_VALUE));
+        assertThatExceptionOfType(IncorrectRatingException.class).isThrownBy(() -> rating.addRating(1, 0));
+        assertThatExceptionOfType(IncorrectRatingException.class).isThrownBy(() -> rating.addRating(2, -1));
+        assertThatExceptionOfType(IncorrectRatingException.class).isThrownBy(() -> rating.addRating(3, Integer.MIN_VALUE));
     }
 
     @Test
@@ -51,62 +42,48 @@ class RatingTest {
         //        given
         //        when
         //        then
-        assertThatExceptionOfType(IncorrectRatingException.class).isThrownBy(() -> rating.addRating(getSampleUser(),6));
-        assertThatExceptionOfType(IncorrectRatingException.class).isThrownBy(() -> rating.addRating(getSampleUser(),Integer.MAX_VALUE));
+        assertThatExceptionOfType(IncorrectRatingException.class).isThrownBy(() -> rating.addRating(1, 6));
+        assertThatExceptionOfType(IncorrectRatingException.class).isThrownBy(() -> rating.addRating(2, Integer.MAX_VALUE));
     }
 
     @Test
     void should_notThrowAnException_when_ratingIsBetween1and5() {
         //        given
-        AppUser user1 = new AppUser(1L,"user","312345aD@","user@email.com",true);
-        AppUser user2 = new AppUser(2L,"user","312345aD@","user@email.com",true);
-        AppUser user3 = new AppUser(3L,"user","312345aD@","user@email.com",true);
-        AppUser user4 = new AppUser(4L,"user","312345aD@","user@email.com",true);
-        AppUser user5 = new AppUser(5L,"user","312345aD@","user@email.com",true);
-
         //        when
         //        then
-        rating.addRating(user1,1);
-        rating.addRating(user2,2);
-        rating.addRating(user3,3);
-        rating.addRating(user4,4);
-        rating.addRating(user5,5);
+        rating.addRating(1, 1);
+        rating.addRating(2, 2);
+        rating.addRating(3, 3);
+        rating.addRating(4, 4);
+        rating.addRating(5, 5);
     }
 
     @Test
     void should_calculateAverageRating_when_addingNewRating() {
         //        given
-        AppUser user1 = new AppUser(1L,"user","312345aD@","user@email.com",true);
-        AppUser user2 = new AppUser(2L,"user","312345aD@","user@email.com",true);
-        AppUser user3 = new AppUser(3L,"user","312345aD@","user@email.com",true);
-        AppUser user4 = new AppUser(4L,"user","312345aD@","user@email.com",true);
-        AppUser user5 = new AppUser(5L,"user","312345aD@","user@email.com",true);
-        AppUser user6 = new AppUser(6L,"user","312345aD@","user@email.com",true);
-
-
         //        when
         //        then
-        rating.addRating(user1,1);
+        rating.addRating(1, 1);
         assertThat(rating.getAverageRating()).isEqualTo(1);
-        rating.addRating(user2,2);
+        rating.addRating(2, 2);
         assertThat(rating.getAverageRating()).isEqualTo(1.5);
-        rating.addRating(user3,3);
+        rating.addRating(3, 3);
         assertThat(rating.getAverageRating()).isEqualTo(2);
-        rating.addRating(user4,4);
+        rating.addRating(4, 4);
         assertThat(rating.getAverageRating()).isEqualTo(2.5);
-        rating.addRating(user5,5);
+        rating.addRating(5, 5);
         assertThat(rating.getAverageRating()).isEqualTo(3);
-        rating.addRating(user6,1);
-        assertThat(Math.round(rating.getAverageRating()*10)/10.0).isEqualTo(2.7);
+        rating.addRating(6, 1);
+        assertThat(Math.round(rating.getAverageRating() * 10) / 10.0).isEqualTo(2.7);
     }
 
     @Test
     void should_addRatingToRatingsMap_when_addingNewRating() {
         //        given
         //        when
-        rating.addRating(getSampleUser(),3);
+        rating.addRating(1, 3);
 
         //        then
-        assertThat(rating.ratingsMap).containsEntry(getSampleUser().getId(),3);
+        assertThat(rating.ratingsMap).containsEntry(1L, 3);
     }
 }

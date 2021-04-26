@@ -11,4 +11,6 @@ public interface RecipeService {
     RecipeDTO addRecipe(AddRecipeDTO recipeDTO, MultipartFile image) throws RecipeAlreadyExistException, UserDoesNotExistException;
 
     void editRecipe(RecipeDTO recipeDTO) throws RecipeNotFoundException;
+
+    RecipeDTO addRating(long recipeId, long userId, int newRating);
 }
