@@ -13,7 +13,8 @@ import java.util.Optional;
 @Repository
 public interface RecipeRepo extends JpaRepository<Recipe, Long> {
 
-    @Query("SELECT new pl.michalzadrozny.familyrecipes.model.dto.RecipePreviewDTO(recipe.id, recipe.name, recipe.diet, recipe.preparationTime, recipe.rating.averageRating, recipe.imageName) FROM Recipe recipe")
+    @Query("SELECT new pl.michalzadrozny.familyrecipes.model.dto.RecipePreviewDTO(recipe.id, recipe.name, recipe.diet, recipe.preparationTime, recipe.rating.averageRating, recipe.imageName) " +
+            "FROM Recipe recipe ORDER BY recipe.rating.averageRating DESC")
     List<RecipePreviewDTO> findAllRecipePreviews(Pageable pageable);
 
     <T> Optional<T> findById(Long id, Class<T> type);
