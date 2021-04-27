@@ -16,7 +16,6 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.web.client.HttpServerErrorException;
 import pl.michalzadrozny.familyrecipes.PrepareTests;
 import pl.michalzadrozny.familyrecipes.exception.InternalServerErrorException;
 import pl.michalzadrozny.familyrecipes.exception.RecipeAlreadyExistException;
@@ -24,20 +23,17 @@ import pl.michalzadrozny.familyrecipes.exception.UserDoesNotExistException;
 import pl.michalzadrozny.familyrecipes.model.dto.AddRecipeDTO;
 import pl.michalzadrozny.familyrecipes.model.dto.RecipeDTO;
 import pl.michalzadrozny.familyrecipes.model.dto.RecipePreviewDTO;
-import pl.michalzadrozny.familyrecipes.model.entity.*;
-import pl.michalzadrozny.familyrecipes.model.mapper.RecipeMapper;
-import pl.michalzadrozny.familyrecipes.model.view.IngredientsView;
+import pl.michalzadrozny.familyrecipes.model.entity.Recipe;
 import pl.michalzadrozny.familyrecipes.model.view.RecipeView;
 import pl.michalzadrozny.familyrecipes.repository.RecipeRepo;
 import pl.michalzadrozny.familyrecipes.repository.UserRepo;
 import pl.michalzadrozny.familyrecipes.security.UserDetailsServiceImpl;
 import pl.michalzadrozny.familyrecipes.security.WebSecurityConfig;
 import pl.michalzadrozny.familyrecipes.service.RecipeServiceImpl;
-import pl.michalzadrozny.familyrecipes.service.StorageService;
 
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectOutputStream;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
@@ -76,23 +72,7 @@ class RecipeControllerTest {
     private JacksonTester<List<RecipePreviewDTO>> recipePreviewListJacksonTester;
 
 
-
 //    GET RECIPE
-
-    @Test
-    void should_returnForbiddenStatus_when_gettingRecipeWithoutAToken() throws Exception {
-        //        given
-        RecipeView recipe = PrepareTests.getValidRecipeView();
-        given(recipeRepo.findById(recipe.getId(), RecipeView.class)).willReturn(Optional.of(recipe));
-
-        //        when
-        MockHttpServletResponse response = mockMvc
-                .perform(MockMvcRequestBuilders.get("/api/recipes/" + recipe.getId()))
-                .andReturn().getResponse();
-
-        //        then
-        assertThat(response.getStatus()).isEqualTo(HttpStatus.FORBIDDEN.value());
-    }
 
     @Test
     void should_returnOkStatus_when_recipeHasBeenFound() throws Exception {
@@ -102,8 +82,7 @@ class RecipeControllerTest {
 
         //        when
         MockHttpServletResponse response = mockMvc
-                .perform(MockMvcRequestBuilders.get("/api/recipes/" + recipe.getId())
-                        .with(SecurityMockMvcRequestPostProcessors.user(PrepareTests.getSampleUser())))
+                .perform(MockMvcRequestBuilders.get("/api/recipes/" + recipe.getId()))
                 .andReturn().getResponse();
 
         //        then
@@ -118,8 +97,7 @@ class RecipeControllerTest {
 
         //        when
         MockHttpServletResponse response = mockMvc
-                .perform(MockMvcRequestBuilders.get("/api/recipes/" + recipe.getId())
-                        .with(SecurityMockMvcRequestPostProcessors.user(PrepareTests.getSampleUser())))
+                .perform(MockMvcRequestBuilders.get("/api/recipes/" + recipe.getId()))
                 .andReturn().getResponse();
 
         //        then
@@ -134,8 +112,7 @@ class RecipeControllerTest {
 
         //        when
         MockHttpServletResponse response = mockMvc
-                .perform(MockMvcRequestBuilders.get("/api/recipes/" + recipe.getId())
-                        .with(SecurityMockMvcRequestPostProcessors.user(PrepareTests.getSampleUser())))
+                .perform(MockMvcRequestBuilders.get("/api/recipes/" + recipe.getId()))
                 .andReturn().getResponse();
 
         //        then
@@ -165,7 +142,7 @@ class RecipeControllerTest {
     void should_returnCreatedStatus_when_addingRecipe() throws Exception {
         //        given
         AddRecipeDTO addRecipeDTO = PrepareTests.getValidAddRecipeDTO();
-        MockMultipartFile multipartRecipe = new MockMultipartFile("recipe", "","application/json", PrepareTests.serialize(addRecipeDTO));
+        MockMultipartFile multipartRecipe = new MockMultipartFile("recipe", "", "application/json", PrepareTests.serialize(addRecipeDTO));
 
         //        when
         MockHttpServletResponse response = mockMvc
@@ -183,7 +160,7 @@ class RecipeControllerTest {
     void should_returnCreatedStatus_when_addingRecipeWithoutImage() throws Exception {
         //        given
         AddRecipeDTO addRecipeDTO = PrepareTests.getValidAddRecipeDTO();
-        MockMultipartFile multipartRecipe = new MockMultipartFile("recipe", "","application/json", PrepareTests.serialize(addRecipeDTO));
+        MockMultipartFile multipartRecipe = new MockMultipartFile("recipe", "", "application/json", PrepareTests.serialize(addRecipeDTO));
 
         //        when
         MockHttpServletResponse response = mockMvc
@@ -200,7 +177,7 @@ class RecipeControllerTest {
     void should_returnNotFoundStatus_when_addingRecipeByUnknownUser() throws Exception {
         //        given
         AddRecipeDTO addRecipeDTO = PrepareTests.getValidAddRecipeDTO();
-        MockMultipartFile multipartRecipe = new MockMultipartFile("recipe", "","application/json", PrepareTests.serialize(addRecipeDTO));
+        MockMultipartFile multipartRecipe = new MockMultipartFile("recipe", "", "application/json", PrepareTests.serialize(addRecipeDTO));
         doThrow(UserDoesNotExistException.class).when(recipeService).addRecipe(addRecipeDTO, null);
 
         //        when
@@ -218,7 +195,7 @@ class RecipeControllerTest {
     void should_returnConflictStatus_when_addingRecipeThatAlreadyExit() throws Exception {
         //        given
         AddRecipeDTO addRecipeDTO = PrepareTests.getValidAddRecipeDTO();
-        MockMultipartFile multipartRecipe = new MockMultipartFile("recipe", "","application/json", PrepareTests.serialize(addRecipeDTO));
+        MockMultipartFile multipartRecipe = new MockMultipartFile("recipe", "", "application/json", PrepareTests.serialize(addRecipeDTO));
         doThrow(RecipeAlreadyExistException.class).when(recipeService).addRecipe(addRecipeDTO, null);
 
         //        when
@@ -236,7 +213,7 @@ class RecipeControllerTest {
     void should_returnInternalServerErrorStatus_when_internalServerErrorExceptionIsThrown() throws Exception {
         //        given
         AddRecipeDTO addRecipeDTO = PrepareTests.getValidAddRecipeDTO();
-        MockMultipartFile multipartRecipe = new MockMultipartFile("recipe", "","application/json", PrepareTests.serialize(addRecipeDTO));
+        MockMultipartFile multipartRecipe = new MockMultipartFile("recipe", "", "application/json", PrepareTests.serialize(addRecipeDTO));
         doThrow(InternalServerErrorException.class).when(recipeService).addRecipe(addRecipeDTO, null);
 
         //        when
@@ -254,7 +231,7 @@ class RecipeControllerTest {
     void should_executeAddRecipe_when_addingRecipe() throws Exception {
         //        given
         AddRecipeDTO addRecipeDTO = PrepareTests.getValidAddRecipeDTO();
-        MockMultipartFile multipartRecipe = new MockMultipartFile("recipe", "","application/json", PrepareTests.serialize(addRecipeDTO));
+        MockMultipartFile multipartRecipe = new MockMultipartFile("recipe", "", "application/json", PrepareTests.serialize(addRecipeDTO));
         RecipeDTO recipeDTO = PrepareTests.getValidRecipeDTO();
         given(recipeService.addRecipe(addRecipeDTO, null)).willReturn(recipeDTO);
 

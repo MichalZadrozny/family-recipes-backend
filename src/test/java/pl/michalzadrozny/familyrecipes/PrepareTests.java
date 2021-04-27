@@ -38,7 +38,7 @@ public class PrepareTests {
 
         AppUser user = getSampleUser();
 
-        RecipeDTO recipeDTO = new RecipeDTO(1L, "Test name", user.getUsername(), 15, rating, "Test description", null, nutrients, Diet.VEGETARIAN, steps, null);
+        RecipeDTO recipeDTO = new RecipeDTO(1L, "Test name", user.getUsername(), 15, 4.5, 2, "Test description", null, nutrients, Diet.VEGETARIAN, steps, null);
 
         Ingredient ingredient1 = new Ingredient(1L, 100, "ml", "mleka");
         Ingredient ingredient2 = new Ingredient(2L, 2, null, "jajka");

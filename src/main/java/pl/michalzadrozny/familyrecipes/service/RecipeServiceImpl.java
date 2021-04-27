@@ -65,17 +65,17 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public void editRecipe(RecipeDTO recipeDTO) throws RecipeNotFoundException {
-        Optional<Recipe> recipe = recipeRepo.findByAuthorUsernameAndName(recipeDTO.getUsername(), recipeDTO.getName());
-
-        recipe.ifPresent(x -> {
-            throw new RecipeNotFoundException("Nazwa \"" + recipeDTO.getName() + "\" już została przez Ciebie wybrana do nazwania innego przepisu");
-        });
-
-        AppUser user = userRepo
-                .findByUsername(recipeDTO.getUsername())
-                .orElseThrow(() -> new UserDoesNotExistException("Użytkownik o nazwie " + recipeDTO.getUsername() + " nie istnieje"));
-
-        recipeRepo.save(RecipeMapper.recipeDtoToRecipeMapper(user).map(recipeDTO, Recipe.class));
+//        Optional<Recipe> recipe = recipeRepo.findByAuthorUsernameAndName(recipeDTO.getUsername(), recipeDTO.getName());
+//
+//        recipe.ifPresent(x -> {
+//            throw new RecipeNotFoundException("Nazwa \"" + recipeDTO.getName() + "\" już została przez Ciebie wybrana do nazwania innego przepisu");
+//        });
+//
+//        AppUser user = userRepo
+//                .findByUsername(recipeDTO.getUsername())
+//                .orElseThrow(() -> new UserDoesNotExistException("Użytkownik o nazwie " + recipeDTO.getUsername() + " nie istnieje"));
+//
+//        recipeRepo.save(RecipeMapper.recipeDtoToRecipeMapper(user).map(recipeDTO, Recipe.class));
     }
 
     @Override

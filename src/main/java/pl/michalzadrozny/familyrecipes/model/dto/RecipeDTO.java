@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import pl.michalzadrozny.familyrecipes.model.entity.Diet;
 import pl.michalzadrozny.familyrecipes.model.entity.Ingredient;
 import pl.michalzadrozny.familyrecipes.model.entity.Nutrients;
-import pl.michalzadrozny.familyrecipes.model.entity.Rating;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -27,7 +26,9 @@ public class RecipeDTO {
     private String username;
     private int preparationTime; //In minutes
 
-    private Rating rating;
+    private double averageRating;
+    private int numberOfRatings;
+
     private String description;
 
     @Size(min = 1)
