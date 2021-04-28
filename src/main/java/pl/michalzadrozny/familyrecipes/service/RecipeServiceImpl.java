@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import pl.michalzadrozny.familyrecipes.exception.*;
 import pl.michalzadrozny.familyrecipes.model.dto.AddRecipeDTO;
 import pl.michalzadrozny.familyrecipes.model.dto.RecipeDTO;
+import pl.michalzadrozny.familyrecipes.model.dto.RecipePreviewDTO;
 import pl.michalzadrozny.familyrecipes.model.entity.AppUser;
 import pl.michalzadrozny.familyrecipes.model.entity.Rating;
 import pl.michalzadrozny.familyrecipes.model.entity.Recipe;
@@ -15,6 +16,7 @@ import pl.michalzadrozny.familyrecipes.repository.RecipeRepo;
 import pl.michalzadrozny.familyrecipes.repository.UserRepo;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -91,5 +93,15 @@ public class RecipeServiceImpl implements RecipeService {
         recipeRepo.save(recipe.get());
 
         return RecipeMapper.convertRecipeToRecipeDTO(recipe.get());
+    }
+
+    @Override
+    public List<RecipePreviewDTO> getUserRecipes(long userId) {
+
+        if (userRepo.findById(userId).isEmpty()) {
+            throw new UserDoesNotExistException("Użytkownik o nazwie " + userId + " nie istnieje");
+        }
+
+        return recipeRepo.findAllUserRecipePreviews(userId);
     }
 }

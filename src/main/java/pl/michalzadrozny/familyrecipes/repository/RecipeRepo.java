@@ -20,4 +20,8 @@ public interface RecipeRepo extends JpaRepository<Recipe, Long> {
     <T> Optional<T> findById(Long id, Class<T> type);
 
     Optional<Recipe> findByAuthorUsernameAndName(String username, String name);
+
+    @Query("SELECT new pl.michalzadrozny.familyrecipes.model.dto.RecipePreviewDTO(recipe.id, recipe.name, recipe.diet, recipe.preparationTime, recipe.rating.averageRating, recipe.imageName) " +
+            "FROM Recipe recipe WHERE recipe.author.id = ?1 ORDER BY recipe.rating.averageRating DESC")
+    List<RecipePreviewDTO> findAllUserRecipePreviews(long userId);
 }

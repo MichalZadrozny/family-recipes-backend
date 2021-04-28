@@ -79,6 +79,14 @@ public class RecipeController {
         } catch (IncorrectRatingException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
+    }
 
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<RecipePreviewDTO>> getUserRecipes(@PathVariable long userId){
+        try{
+            return ResponseEntity.ok(recipeService.getUserRecipes(userId));
+        }catch (UserDoesNotExistException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 }
