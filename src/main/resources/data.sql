@@ -145,7 +145,7 @@ WHERE id = 10001;
 
 INSERT INTO public.recipes(id, description, diet, name, preparation_time, author_id, nutrients_id, rating_id, image_name)
 VALUES (10002, 'BURRITO w zdrowszej fit wersji z indykiem zaczerpnięte z kanały Policzona Szama na Youtube. Zaledwie 17 g tłuszczów na jedno burito. Mimo odchudzonej wersji to meksykańskie danie jest smakowym wypasem. Dziś farsz do wrapów robiony na jednej patelni razem z ryżem, który bezpośrednio wchłania smaki. Kilkanaście minut pracy i dostajecie dwie przepyszne, solidne, pełnowartościowe porcje. Dziś cenowo policzone użyte składniki 15,59 / 2 = 7,80 zł (22.04.2021). Link do filmiku autora: https://www.youtube.com/watch?v=I4OHJX2EdT0&list=PL7a3rf01kAEXKoRauTJPfAWqpSbXb-QwB&index=41&ab_channel=PoliczonaSzama',
-        0, 'Buritto - Policzona Szama', 15, 10000, null, null, '10002.jpg');
+        0, 'Buritto - Policzona Szama', 30, 10000, null, null, '10002.jpg');
 
 INSERT INTO public.ingredients(id, amount, name, unit, recipe_id)
 VALUES (10015, 300, 'Piersi z indyka', 'gram', 10002);
