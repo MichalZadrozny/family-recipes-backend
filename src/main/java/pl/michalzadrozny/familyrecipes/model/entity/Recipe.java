@@ -26,6 +26,8 @@ public class Recipe {
 
     @OneToOne(cascade = CascadeType.ALL)
     private Rating rating;
+
+    @Column(length = 1000)
     private String description;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
