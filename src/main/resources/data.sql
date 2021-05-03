@@ -1,6 +1,9 @@
 INSERT INTO public.users(id, account_enabled, email, password, username)
 VALUES (9999, 'true', 'email@email.com', '$2a$10$xO.rrYTVaTiFO5gcUofGPupL3bxpJbvTvB.pWwJkisjzFuzwKinmu', 'admin');
 
+INSERT INTO public.users(id, account_enabled, email, password, username)
+VALUES (10000, 'true', 'email2@email.com', '$2a$10$xO.rrYTVaTiFO5gcUofGPupL3bxpJbvTvB.pWwJkisjzFuzwKinmu', 'Głodomor');
+
 -- Recipe 1
 
 INSERT INTO public.recipes(id, description, diet, name, preparation_time, author_id, nutrients_id, rating_id)
@@ -137,3 +140,88 @@ VALUES (10001, 'Na wierzch dania dodaj posiekane orzechy oraz pokrojonego banana
 UPDATE public.recipes
 SET rating_id = 10001
 WHERE id = 10001;
+
+-- Recipe 4
+
+INSERT INTO public.recipes(id, description, diet, name, preparation_time, author_id, nutrients_id, rating_id, image_name)
+VALUES (10002, 'BURRITO w zdrowszej fit wersji z indykiem zaczerpnięte z kanały Policzona Szama na Youtube. Zaledwie 17 g tłuszczów na jedno burito. Mimo odchudzonej wersji to meksykańskie danie jest smakowym wypasem. Dziś farsz do wrapów robiony na jednej patelni razem z ryżem, który bezpośrednio wchłania smaki. Kilkanaście minut pracy i dostajecie dwie przepyszne, solidne, pełnowartościowe porcje. Dziś cenowo policzone użyte składniki 15,59 / 2 = 7,80 zł (22.04.2021). Link do filmiku autora: https://www.youtube.com/watch?v=I4OHJX2EdT0&list=PL7a3rf01kAEXKoRauTJPfAWqpSbXb-QwB&index=41&ab_channel=PoliczonaSzama',
+        0, 'Buritto - Policzona Szama', 15, 10000, null, null, '10002.jpg');
+
+INSERT INTO public.ingredients(id, amount, name, unit, recipe_id)
+VALUES (10015, 300, 'Piersi z indyka', 'gram', 10002);
+INSERT INTO public.ingredients(id, amount, name, unit, recipe_id)
+VALUES (10016, 0.5, 'Papryki czerwonej', null, 10002);
+INSERT INTO public.ingredients(id, amount, name, unit, recipe_id)
+VALUES (10017, 0.3, 'Papryki zielonej', null, 10002);
+INSERT INTO public.ingredients(id, amount, name, unit, recipe_id)
+VALUES (10018, 40, 'Kukurydzy', 'gram', 10002);
+INSERT INTO public.ingredients(id, amount, name, unit, recipe_id)
+VALUES (10019, 100, 'Ryżu parboiled', 'gram', 10002);
+INSERT INTO public.ingredients(id, amount, name, unit, recipe_id)
+VALUES (10020, 350, 'Passaty pomidorowej', 'ml', 10002);
+INSERT INTO public.ingredients(id, amount, name, unit, recipe_id)
+VALUES (10021, 50, 'Mozzarelli', 'gram', 10002);
+INSERT INTO public.ingredients(id, amount, name, unit, recipe_id)
+VALUES (10022, 0.5, 'Cebuli czerwonej', null, 10002);
+INSERT INTO public.ingredients(id, amount, name, unit, recipe_id)
+VALUES (10023, 3, 'Ząbki czosnku', null, 10002);
+INSERT INTO public.ingredients(id, amount, name, unit, recipe_id)
+VALUES (10024, 1, 'Natka pietruszki', null, 10002);
+INSERT INTO public.ingredients(id, amount, name, unit, recipe_id)
+VALUES (10025, 2, 'Wrapy', null, 10002);
+INSERT INTO public.ingredients(id, amount, name, unit, recipe_id)
+VALUES (10026, 10, 'Oliwy', 'ml', 10002);
+INSERT INTO public.ingredients(id, amount, name, unit, recipe_id)
+VALUES (10027, 1.5, 'Oregano', 'łyżki', 10002);
+INSERT INTO public.ingredients(id, amount, name, unit, recipe_id)
+VALUES (10028, 2, 'Kminu rzymskiego', 'łyżeczki', 10002);
+INSERT INTO public.ingredients(id, amount, name, unit, recipe_id)
+VALUES (10029, 1, 'Czerwona papryka ostra', 'łyżeczka', 10002);
+
+INSERT INTO public.nutrients(id, calories, proteins, fats, carbs)
+VALUES (10002, 1394, 94, 34, 170);
+
+UPDATE public.recipes
+SET nutrients_id = 10002
+WHERE id = 10002;
+
+INSERT INTO public.ratings(id, average_rating)
+VALUES (10002, 5);
+
+INSERT INTO public.rating_ratings_map(rating_id, ratings_map, ratings_map_key)
+VALUES (10002, 5, 1);
+
+INSERT INTO public.recipe_steps(recipe_id, steps)
+VALUES (10002, 'Pierś z indyka, papryki oraz cebulę pokroić w kostkę');
+INSERT INTO public.recipe_steps(recipe_id, steps)
+VALUES (10002, 'Poszatkować czosnek');
+INSERT INTO public.recipe_steps(recipe_id, steps)
+VALUES (10002, 'Na patelni podsmarzyć przez około minutę na średnim ogniu czosnek oraz połowę z posiekanej cebuli na 10 ml oliwy (można więcej, lecz tyle jest wliczone w makroskładniki');
+INSERT INTO public.recipe_steps(recipe_id, steps)
+VALUES (10002, 'Dodać kmin rzymski oraz oregano i podsmażyć przez około 10-20s mieszając');
+INSERT INTO public.recipe_steps(recipe_id, steps)
+VALUES (10002, 'Dodać indyka i delikatnie podsmażyć');
+INSERT INTO public.recipe_steps(recipe_id, steps)
+VALUES (10002, 'Lekko doprawić solą i pieprzem');
+INSERT INTO public.recipe_steps(recipe_id, steps)
+VALUES (10002, 'Dodać pasatę, ryż oraz papryki');
+INSERT INTO public.recipe_steps(recipe_id, steps)
+VALUES (10002, 'Smażyć na delikatnym ogniu przez około 15-20min dodając co jakiś czas wody aż ryż będzie gotowy');
+INSERT INTO public.recipe_steps(recipe_id, steps)
+VALUES (10002, 'Po kilku minutach smażenia dodać czerwoną paprykę ostrą');
+INSERT INTO public.recipe_steps(recipe_id, steps)
+VALUES (10002, 'Posiekać natkę pietruszki');
+INSERT INTO public.recipe_steps(recipe_id, steps)
+VALUES (10002, 'Wymieszać pietruszkę wraz z kukurydzą i drugą połową posiekanej cebuli');
+INSERT INTO public.recipe_steps(recipe_id, steps)
+VALUES (10002, 'Połączyć mieszankę z poprzedniego kroku wraz z zawartością patelni');
+INSERT INTO public.recipe_steps(recipe_id, steps)
+VALUES (10002, 'Zetrzeć ser mozzarella');
+INSERT INTO public.recipe_steps(recipe_id, steps)
+VALUES (10002, 'Podzielić ser oraz farsz na 2 i zawinąć we wrapy');
+INSERT INTO public.recipe_steps(recipe_id, steps)
+VALUES (10002, 'Wrzucić buritto do piekarnika rozgrzanego do 220 stopni celcjusza (termoobieg) do momentu aż się zarumienią');
+
+UPDATE public.recipes
+SET rating_id = 10002
+WHERE id = 10002;
