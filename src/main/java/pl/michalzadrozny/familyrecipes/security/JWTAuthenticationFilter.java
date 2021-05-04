@@ -3,7 +3,6 @@ package pl.michalzadrozny.familyrecipes.security;
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -71,7 +70,13 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         jsonMap.put("username", user.getUsername());
         jsonMap.put("userId", user.getId().toString());
 
-        response.getWriter().write(new JSONObject(jsonMap).toString());
+        String json = "{\n" +
+                "    \"userId\": \"" + user.getId().toString() + "\",\n" +
+                "    \"token\": \"" + token + "\",\n" +
+                "    \"username\": \"" + user.getUsername() + "\"\n" +
+                "}";
+
+        response.getWriter().write(json);
         response.setContentType("application/json");
         response.getWriter().flush();
     }
