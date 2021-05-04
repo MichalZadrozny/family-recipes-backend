@@ -21,7 +21,6 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/user")
-@CrossOrigin(origins = "https://family-recipes-prod.herokuapp.com/")
 public class UserController {
 
     private final UserService userService;
