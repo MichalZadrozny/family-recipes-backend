@@ -40,12 +40,9 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {
-            log.info("1");
             LoginDTO loginDTO = new ObjectMapper()
                     .readValue(request.getInputStream(), LoginDTO.class);
-            log.info("2");
             AppUser credentials = UserMapper.signUpDtoToAppUserMapper().map(loginDTO, AppUser.class);
-            log.info("3");
 
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -54,7 +51,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                             new ArrayList<>())
             );
         } catch (IOException e) {
-            log.info("error");
             log.warn(e.getMessage());
             throw new RuntimeException(e);
         }
@@ -63,20 +59,28 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException {
 
+        log.info("1");
         AppUser user = (AppUser) authResult.getPrincipal();
+        log.info("2");
 
         String token = JWT.create()
                 .withSubject(user.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .sign(HMAC512(SECRET.getBytes()));
+        log.info("3");
 
         Map<String, String> jsonMap = new HashMap<>();
         jsonMap.put("token", token);
         jsonMap.put("username", user.getUsername());
         jsonMap.put("userId", user.getId().toString());
 
+        log.info("4");
+
         response.getWriter().write(new JSONObject(jsonMap).toString());
+        log.info("5");
         response.setContentType("application/json");
+        log.info("6");
         response.getWriter().flush();
+        log.info("7");
     }
 }
