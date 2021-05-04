@@ -40,9 +40,12 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {
+            log.info("1");
             LoginDTO loginDTO = new ObjectMapper()
                     .readValue(request.getInputStream(), LoginDTO.class);
+            log.info("2");
             AppUser credentials = UserMapper.signUpDtoToAppUserMapper().map(loginDTO, AppUser.class);
+            log.info("3");
 
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -51,6 +54,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                             new ArrayList<>())
             );
         } catch (IOException e) {
+            log.info("error");
             log.warn(e.getMessage());
             throw new RuntimeException(e);
         }
