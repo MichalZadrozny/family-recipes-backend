@@ -59,24 +59,25 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException {
 
-        log.info("1");
         AppUser user = (AppUser) authResult.getPrincipal();
-        log.info("2");
 
         String token = JWT.create()
                 .withSubject(user.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .sign(HMAC512(SECRET.getBytes()));
-        log.info("3");
 
         Map<String, String> jsonMap = new HashMap<>();
         jsonMap.put("token", token);
         jsonMap.put("username", user.getUsername());
         jsonMap.put("userId", user.getId().toString());
 
-        log.info("4");
+        log.info("1");
 
-        response.getWriter().write(new JSONObject(jsonMap).toString());
+        String json = new JSONObject(jsonMap).toString();
+
+        log.info("2");
+
+        response.getWriter().write(json);
         log.info("5");
         response.setContentType("application/json");
         log.info("6");
