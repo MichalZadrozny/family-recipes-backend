@@ -52,7 +52,7 @@ WHERE id = 9999;
 -- Recipe 2
 
 INSERT INTO public.recipes(id, description, diet, name, preparation_time, author_id, nutrients_id, rating_id)
-VALUES (10000, 'Ciekawa wariacja standardowego śniadania. Jajecznica z Jajecznica z Pieprzem Cayenne który dodaje lekkiej pikantności oraz Kurkumą dla smaku i koloru.', 2,
+VALUES (10000, 'Ciekawa wariacja standardowego śniadania. Jajecznica z Pieprzem Cayenne który dodaje lekkiej pikantności oraz Kurkumą dla smaku i koloru.', 2,
         'Jajecznica z Pieprzem Cayenne i Kurkumą', 15, 9999, null, null);
 
 INSERT INTO public.ingredients(id, amount, name, unit, recipe_id)
@@ -60,7 +60,7 @@ VALUES (10004, 3, 'Jajka kurze', null, 10000);
 INSERT INTO public.ingredients(id, amount, name, unit, recipe_id)
 VALUES (10005, 1, 'Średnia cebula', null, 10000);
 INSERT INTO public.ingredients(id, amount, name, unit, recipe_id)
-VALUES (10006, 70, 'Kiełbasy (można wybrać również boczek czy ulubioną wędlinę)', 'gram', 10000);
+VALUES (10006, 70, 'Wędlina (można wybrać również boczek lub delikatną kiełbasę)', 'gram', 10000);
 INSERT INTO public.ingredients(id, amount, name, unit, recipe_id)
 VALUES (10007, 1, 'Pieprzu Cayenne', 'szczypta', 10000);
 INSERT INTO public.ingredients(id, amount, name, unit, recipe_id)
@@ -86,9 +86,9 @@ VALUES (10000, 'Posiekaj cebulę oraz kiełbasę w kostkę');
 INSERT INTO public.recipe_steps(recipe_id, steps)
 VALUES (10000, 'Rozgrzej patelnię na średnim ogniu i dodaj preferowany tłuszcz');
 INSERT INTO public.recipe_steps(recipe_id, steps)
-VALUES (10000, 'Lekko podsmaż cebulę a następnie dodaj kiełbasę');
+VALUES (10000, 'Lekko podsmaż kiełbasę a następnie dodaj cebulę');
 INSERT INTO public.recipe_steps(recipe_id, steps)
-VALUES (10000, 'Jak kiełbasa się podsmaży, zmniejsz ogień i dodaj jajka oraz przyprawy');
+VALUES (10000, 'Jak cebula się zeszkli, zmniejsz ogień i dodaj jajka oraz przyprawy. Dobrze jest jeszcze dodać odrobinę soli i pieprzu wedle uznania');
 INSERT INTO public.recipe_steps(recipe_id, steps)
 VALUES (10000, 'Smaż jajecznicę do momenctu lekkiego ścięcia');
 
