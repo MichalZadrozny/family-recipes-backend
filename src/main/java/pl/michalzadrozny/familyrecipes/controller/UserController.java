@@ -73,7 +73,7 @@ public class UserController {
             registrationService.sendRecoveryLink(email);
             return ResponseEntity.status(HttpStatus.OK).build();
         } catch (UserDoesNotExistException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Użytkownik o podanym adresie nie istnieje");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Użytkownik o podanym adresie email nie istnieje");
         }
     }
 
