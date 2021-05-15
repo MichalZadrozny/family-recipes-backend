@@ -72,7 +72,7 @@ public class RegistrationService {
         emailService.sendEmail(
                 user.getEmail(),
                 "Twój link do zresetowania hasła",
-                getContentWithLink("/api/user/recover-password", token, "Klliknij w link poniżej aby przejść do resetowania hasła: \n"));
+                getContentWithLink("/api/user/change-password", token, "Klliknij w link poniżej aby przejść do resetowania hasła: \n"));
     }
 
     private String saveVerificationToken(AppUser user) {
