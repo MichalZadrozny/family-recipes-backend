@@ -9,7 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.michalzadrozny.familyrecipes.exception.EmailAlreadyExistsException;
+import pl.michalzadrozny.familyrecipes.exception.UserDoesNotExistException;
 import pl.michalzadrozny.familyrecipes.exception.UsernameAlreadyExistsException;
+import pl.michalzadrozny.familyrecipes.model.dto.AccountRecoveryDTO;
 import pl.michalzadrozny.familyrecipes.model.dto.LoginDTO;
 import pl.michalzadrozny.familyrecipes.model.dto.SignUpDTO;
 import pl.michalzadrozny.familyrecipes.model.entity.AppUser;
@@ -17,7 +19,12 @@ import pl.michalzadrozny.familyrecipes.model.mapper.UserMapper;
 import pl.michalzadrozny.familyrecipes.service.RegistrationService;
 import pl.michalzadrozny.familyrecipes.service.UserService;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
+
+import static pl.michalzadrozny.familyrecipes.configuration.UrlConstants.WEBSITE_LOGIN_URL;
+import static pl.michalzadrozny.familyrecipes.configuration.UrlConstants.WEBSITE_RECOVERY_URL;
 
 @RestController
 @RequestMapping("/api/user")
@@ -49,7 +56,7 @@ public class UserController {
     }
 
     @GetMapping("/verify-token")
-    public ResponseEntity<?> verifyToken(@RequestParam String token) {
+    public ResponseEntity<?> verifyRegistrationToken(@RequestParam String token) {
         try {
             registrationService.verifyToken(token);
             return ResponseEntity.status(HttpStatus.OK).build();
@@ -57,6 +64,36 @@ public class UserController {
             return ResponseEntity.notFound().build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/recover-password")
+    public ResponseEntity<?> recoverPassword(@RequestParam String email) {
+        try {
+            registrationService.sendRecoveryLink(email);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } catch (UserDoesNotExistException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Użytkownik o podanym adresie nie istnieje");
+        }
+    }
+
+    @GetMapping("/change-password")
+    public void verifyRecoveryToken(@RequestParam String token, HttpServletResponse response) throws IOException {
+        try {
+            registrationService.verifyRecoveryToken(token);
+            response.sendRedirect(WEBSITE_RECOVERY_URL+"/"+token);
+        } catch (NotFoundException e) {
+            response.sendRedirect(WEBSITE_LOGIN_URL);
+        }
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<?> changePassword(@Valid @RequestBody AccountRecoveryDTO recoveryDTO) {
+        try {
+            userService.changePassword(recoveryDTO);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } catch (NotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
         }
     }
 

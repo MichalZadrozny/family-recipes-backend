@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import pl.michalzadrozny.familyrecipes.exception.EmailAlreadyExistsException;
 import pl.michalzadrozny.familyrecipes.exception.UsernameAlreadyExistsException;
 import pl.michalzadrozny.familyrecipes.model.entity.AppUser;
+import pl.michalzadrozny.familyrecipes.repository.RecoveryTokenRepo;
 import pl.michalzadrozny.familyrecipes.repository.UserRepo;
 
 import java.util.Optional;
@@ -25,6 +26,9 @@ class UserServiceTest {
     private UserRepo userRepo;
 
     @Mock
+    private RecoveryTokenRepo recoveryTokenRepo;
+
+    @Mock
     private RegistrationService registrationService;
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -33,7 +37,7 @@ class UserServiceTest {
 
     @BeforeEach
     void setUp() {
-        userService = new UserServiceImpl(userRepo, passwordEncoder, registrationService);
+        userService = new UserServiceImpl(userRepo, passwordEncoder, registrationService, recoveryTokenRepo);
     }
 
     private static AppUser getSampleUser() {

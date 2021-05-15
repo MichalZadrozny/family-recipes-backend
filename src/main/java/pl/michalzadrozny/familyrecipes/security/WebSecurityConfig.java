@@ -17,6 +17,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import static pl.michalzadrozny.familyrecipes.configuration.UrlConstants.SWAGGER_URLS;
 
@@ -48,6 +49,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/api/user/sign-up").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/user/verify-token").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/user/login").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/user/recover-password").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/user/change-password").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/user/change-password").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/recipes").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/recipes/*").permitAll()
                 .antMatchers(SWAGGER_URLS).permitAll()
@@ -66,10 +70,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("*"));
-        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowedOrigins(Collections.singletonList("*"));
+        configuration.setAllowedHeaders(Collections.singletonList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST","PUT", "DELETE"));
-        configuration.setAllowedOriginPatterns(Arrays.asList("*"));
+        configuration.setAllowedOriginPatterns(Collections.singletonList("*"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
