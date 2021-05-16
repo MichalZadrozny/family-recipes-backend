@@ -88,12 +88,12 @@ public class UserController {
     }
 
     @PostMapping("/change-password")
-    public ResponseEntity<?> changePassword(@Valid @RequestBody AccountRecoveryDTO recoveryDTO) {
+    public ResponseEntity<Void> changePassword(@Valid @RequestBody AccountRecoveryDTO recoveryDTO) {
         try {
             userService.changePassword(recoveryDTO);
             return ResponseEntity.status(HttpStatus.OK).build();
         } catch (NotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
