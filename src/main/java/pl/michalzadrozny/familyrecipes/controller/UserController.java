@@ -23,8 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 
-import static pl.michalzadrozny.familyrecipes.configuration.UrlConstants.WEBSITE_LOGIN_URL;
-import static pl.michalzadrozny.familyrecipes.configuration.UrlConstants.WEBSITE_RECOVERY_URL;
+import static pl.michalzadrozny.familyrecipes.configuration.UrlConstants.*;
 
 @RestController
 @RequestMapping("/api/user")
@@ -56,14 +55,12 @@ public class UserController {
     }
 
     @GetMapping("/verify-token")
-    public ResponseEntity<?> verifyRegistrationToken(@RequestParam String token) {
+    public void verifyRegistrationToken(@RequestParam String token, HttpServletResponse response) throws IOException {
         try {
             registrationService.verifyToken(token);
-            return ResponseEntity.status(HttpStatus.OK).build();
-        } catch (NotFoundException e) {
-            return ResponseEntity.notFound().build();
+            response.sendRedirect(WEBSITE_LOGIN_URL);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            response.sendRedirect(WEBSITE_URL);
         }
     }
 
@@ -81,7 +78,7 @@ public class UserController {
     public void verifyRecoveryToken(@RequestParam String token, HttpServletResponse response) throws IOException {
         try {
             registrationService.verifyRecoveryToken(token);
-            response.sendRedirect(WEBSITE_RECOVERY_URL+"/"+token);
+            response.sendRedirect(WEBSITE_RECOVERY_URL + "/" + token);
         } catch (NotFoundException e) {
             response.sendRedirect(WEBSITE_LOGIN_URL);
         }
