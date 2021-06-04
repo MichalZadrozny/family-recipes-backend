@@ -45,7 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.addFilterBefore(getUTF8Filter(), CsrfFilter.class);
 
-        http.cors().and().csrf().disable().authorizeRequests()
+        http.csrf().disable().authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/user/sign-up").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/user/verify-token").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/user/login").permitAll()
